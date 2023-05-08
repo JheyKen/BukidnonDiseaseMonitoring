@@ -1,0 +1,145 @@
+#Header {
+  background-color: #0A1172;
+  color: white;
+  padding: 10px 10px 10px 30px;
+}
+
+#Sidebar {
+  position: fixed;
+  width: 270px;
+  height: 100% !important;
+}
+
+#Grid-with-sidebar {
+  margin-left: 18%;
+  height: 100% !important;
+  padding: 20px 20px 20px 30px;
+}
+
+#Grid {
+  height: 100% !important;
+  padding: 20px;
+}
+
+.account button {
+  font-size: 15px;
+  color: white;
+  font-weight: bold;
+}
+
+#menu.MuiPopover-root .MuiPaper-root {
+  top: 55px !important;
+  left: 1100px !important;
+  width: 230px;
+}
+
+.box {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 15%);
+  text-align: center;
+}
+
+.box-dashboard {
+  position: relative;
+  padding: 0px 10px;
+  text-align: center;
+}
+
+.MuiDrawer-paper {
+  width: 270px;
+  min-height: 839px !important;
+  max-height: 83.8% !important;
+}
+
+.list-item {
+  padding: 5px !important;
+  font-size: 23px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.list-item:hover {
+  background-color: #0A1172 !important;
+  color: white;
+  cursor: pointer;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+#search-bar {
+  width: 390px;
+  height: 0.9em !important;
+  outline: none;
+  border: none;
+}
+
+.search-bar-paper {
+  width: 450px;
+  margin-left: 90%;
+  margin-bottom: 10px;
+}
+
+.report-dengue-bar-paper {
+  width: 660px;
+  padding: 10px;
+  margin-left: 19.5%;
+  margin-bottom: 10px;
+}
+
+.report-influenza-bar-paper {
+  width: 660px;
+  padding: 10px;
+  margin-left: 16.5%;
+  margin-bottom: 10px;
+}
+
+.report-typhoid-bar-paper {
+  width: 660px;
+  padding: 10px;
+  margin-left: 18.5%;
+  margin-bottom: 10px;
+}
+
+.upper-btn {
+  width: 200px !important;
+}
+
+.table-btn {
+  min-width: 10px !important;
+}
+
+.date-field {
+  width: 330px !important;
+}
+
+#disease-date-field {
+  width: 170px !important;
+  height: 0.9em !important;
+}
+
+.edit_inputs {
+  width: 20pc;
+}
+
+
+
+/* Modal Sizes */
+#verify_account .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  max-width: 900px;
+  max-height: 550px;
+  width: 900px;
+  height: 550px;
+}
+
+#edit_account .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  max-width: 480px;
+  max-height: 460px;
+  width: 480px;
+  height: 460px;
+}

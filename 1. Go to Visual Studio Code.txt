@@ -1,0 +1,8 @@
+1. Go to Visual Studio Code
+2. Check if last path is BPDMS
+3. Type start rethinkdb.exe --bind all
+4. cd backend, cd frontend
+5. npm start sa backend first
+6. npm start sa frontend last
+7. Go to browser enter localhost:3000 for the system
+8. New tab, enter localhost:8080 for the database
