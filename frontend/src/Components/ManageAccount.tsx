@@ -17,14 +17,16 @@ import { useEffect, useState } from "react";
 import { DeleteAccount, EditAccount, VerifyAccount, ViewAccount } from "../Modals";
 import { AxiosResponse } from "axios";
 import Service from "../Service/Service";
+import { localStorageValues } from "../App";
 
 function ManageAccount() {
   const rows: number = 4;
 
   const [allVerifiedAccounts, setAllVerifiedAccounts] = useState([]) //holds all verified accounts
   const [allPendingAccounts, setAllPendingAccounts] = useState([]) //holds all accounts with pending status
-  const [selectedAccountData, setSelectedAccountData] = useState([]) //holds the data of the account to be edited/view/deleted
-  const [editAccount, setEditAccount] = useState([]) //holds the return data when editing
+  const [selectedAccountData, setSelectedAccountData] = useState({}) //holds the data of the account to be edited/view/deleted
+  const [editAccount, setEditAccount] = useState([]) // holds the return data when editing
+  const [deleteAccount, setDeleteAccount] = useState([]) // holds the return data when deleting
   const [searchedRows, setSearchedRows] = useState([])
   const [page, setPage] = useState(0);
   const [openVerifyAccountModal, setOpenVerifyAccountModal] = useState(false)
@@ -35,12 +37,12 @@ function ManageAccount() {
   useEffect(() => {
     handleAllVerifiedAccounts();
     handleAllPendingAccounts();
-  }, [editAccount])
+  }, [editAccount, deleteAccount])
 
   const handleAllVerifiedAccounts = async () => {
     try {
       const result: AxiosResponse = await Service.getAllVerifiedAccounts()
-      const {data} = result
+      const { data } = result
       setAllVerifiedAccounts(data)
       setSearchedRows(data)
     } catch (error) {
@@ -51,30 +53,38 @@ function ManageAccount() {
   const handleAllPendingAccounts = async () => {
     try {
       const result: AxiosResponse = await Service.getAllPendingAccounts()
-      const {data} = result
+      const { data } = result
       setAllPendingAccounts(data)
     } catch (error) {
       alert("Error fetching accounts.")
     }
   }
 
-  const handleAccountData = async (username: string) => {
-    try {
-      const result: AxiosResponse = await Service.getAccountByUsername(username)
-      const {data} = result
-      setSelectedAccountData(data)
-    } catch (error) {
-      alert("Error fetching accounts.")
-    }
+  const handleAccountData = async (dataSelected: any) => {
+    setSelectedAccountData(dataSelected)
   }
 
   const handleEditAccount = async (username: string, editParam: object) => {
     try {
       const result: AxiosResponse = await Service.editAccount(username, editParam);
-      const {data} = result
+      const { data } = result
       setEditAccount(data)
+      setSelectedAccountData([])
+      setOpenEditAccountModal(false);
     } catch (error) {
       alert("Error editing account.")
+    }
+  }
+
+  const handleDeleteAccount = async (username: string) => {
+    try {
+      const result: AxiosResponse = await Service.deleteAccount(username);
+      const { data } = result
+      setOpenDeleteAccountModal(false);
+      setDeleteAccount(data)
+      setSelectedAccountData([])
+    } catch (error) {
+      alert("Error deleting account.")
     }
   }
 
@@ -85,12 +95,12 @@ function ManageAccount() {
       setSearchedRows(allVerifiedAccounts)
     }
     else {
-        const filterRow = allVerifiedAccounts.filter((row: any) => {
-          return row.first_name.toLowerCase().includes(value.toLowerCase()) || 
-                      row.middle_name.toLowerCase().includes(value.toLowerCase()) ||
-                      row.last_name.toLowerCase().includes(value.toLowerCase())
-        })
-        setSearchedRows(filterRow)
+      const filterRow = allVerifiedAccounts.filter((row: any) => {
+        return row.first_name.toLowerCase().includes(value.toLowerCase()) ||
+          row.middle_name.toLowerCase().includes(value.toLowerCase()) ||
+          row.last_name.toLowerCase().includes(value.toLowerCase())
+      })
+      setSearchedRows(filterRow)
     }
   }
 
@@ -119,10 +129,12 @@ function ManageAccount() {
   }
 
   const handleCloseEditAccountModal = () => {
+    setSelectedAccountData([])
     setOpenEditAccountModal(false);
   }
 
   const handleOpenDeleteAccountModal = () => {
+    setSelectedAccountData([])
     setOpenDeleteAccountModal(true);
   }
 
@@ -131,7 +143,7 @@ function ManageAccount() {
   }
 
   return (
-    <div style={{paddingLeft: '15px'}}>
+    <div style={{ paddingLeft: '15px' }}>
       <div style={{ textAlign: 'center', paddingBottom: '20px' }}>
         <span style={{ fontSize: '30px', fontWeight: 'bold' }}>Manage Account</span>
       </div>
@@ -192,10 +204,15 @@ function ManageAccount() {
                           <Button color='primary' variant='contained' className='table-btn' onClick={() => { handleAccountData(row.username); handleOpenEditAccountModal() }}>
                             <Edit style={{ color: 'white' }} />
                           </Button>
-                          &emsp;
-                          <Button color='error' variant='contained' onClick={handleOpenDeleteAccountModal}>
-                            <Delete style={{ color: 'white' }} />
-                          </Button>
+                          {
+                            localStorageValues('username') === row.username ? '' :
+                              <>
+                                &emsp;
+                                <Button color='error' variant='contained' onClick={() => { handleAccountData(row); handleOpenDeleteAccountModal() }}>
+                                  <Delete style={{ color: 'white' }} />
+                                </Button>
+                              </>
+                          }
                         </TableCell>
                       </TableRow>
                     )
@@ -236,6 +253,8 @@ function ManageAccount() {
       <DeleteAccount
         open={openDeleteAccountModal}
         handleClose={handleCloseDeleteAccountModal}
+        selectedAccountData={selectedAccountData}
+        handleDeleteAccount={handleDeleteAccount}
       />
     </div>
   );

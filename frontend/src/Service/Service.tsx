@@ -38,12 +38,30 @@ const Service = {
       throw error
     }
   },
+  createAccount: async (createData: object) => {
+    try {
+      const data: AxiosResponse = await axios.post('/account/createAccount', {
+        createData
+      })
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
   editAccount: async (username: string, editParam: object) => {
     try {
       const data: AxiosResponse = await axios.put('/account/editAccount', {
         username,
         editParam
       })
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  deleteAccount: async (username: string) => {
+    try {
+      const data: AxiosResponse = await axios.delete(`/account/deleteAccount/${username}`)
       return data.data
     } catch (error) {
       throw error

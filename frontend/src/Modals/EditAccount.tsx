@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BootstrapDialog, BootstrapDialogTitle } from "./BootstrapDialog";
 import { DialogContent, DialogActions, Button, TextField, Select, MenuItem } from "@mui/material";
+import { AxiosResponse } from "axios";
+import Service from "../Service/Service";
 
 interface Props {
   open: boolean,
@@ -11,17 +13,33 @@ interface Props {
 
 function EditAccount(props: Props) {
   const { open, handleClose, selectedAccountData, handleEditAccount } = props
-  const { first_name, middle_name, last_name, org_name, position} = selectedAccountData
 
-  console.log(selectedAccountData)
+  const [editData, setEditData] = useState({
+    first_name: "",
+    middle_name: "",
+    last_name: "",
+    position: "",
+    org_name: ""
+  })
 
-  const [editData, setEditData] = useState(selectedAccountData)
+  useEffect(() => {
+    handleData()
+  }, [selectedAccountData])
+
+  const handleData = async () => {
+    try {
+      const result: AxiosResponse = await Service.getAccountByUsername(selectedAccountData)
+      const { data } = result
+      setEditData(data)
+    } catch (error) {
+      throw error
+    }
+  }
 
   const handleInputs = (event: any) => {
     const { name, value } = event.target
 
     setEditData({ ...editData, [name]: value })
-    console.log(editData)
   }
 
   return (
@@ -65,6 +83,7 @@ function EditAccount(props: Props) {
               <Select
                 labelId="org_name"
                 id="org_name"
+                name="org_name"
                 className="edit_inputs"
                 value={editData.org_name}
                 label="Organization Name"
@@ -79,7 +98,7 @@ function EditAccount(props: Props) {
         </table>
       </DialogContent>
       <DialogActions>
-        <Button color="primary" variant="contained" onClick={() => {}}>Save</Button>
+        <Button color="primary" variant="contained" onClick={() => { handleEditAccount(selectedAccountData, editData) }}>Save</Button>
         <Button color="error" variant="contained">Cancel</Button>
       </DialogActions>
     </BootstrapDialog>

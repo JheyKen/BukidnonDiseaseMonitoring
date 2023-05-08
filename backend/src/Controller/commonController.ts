@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import commonModel from "../Model/commonModel"
+import bcrypt from 'bcrypt'
 
 const commonController = {
   login: async (req: Request, res: Response) => {
@@ -11,7 +12,9 @@ const commonController = {
       if (userData.length) {
         const { password: userPassword } = userData[0]
 
-        if (userPassword == password) {
+        const isPasswordCorrect: boolean = bcrypt.compareSync(password, userPassword)
+
+        if (isPasswordCorrect) {
           res.status(200).send({
             error: 0,
             data: userData[0],

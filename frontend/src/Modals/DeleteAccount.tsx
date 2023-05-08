@@ -3,11 +3,14 @@ import { DialogContent, DialogActions, Button, TextField, TextareaAutosize } fro
 
 interface Props {
   open: boolean,
-  handleClose: () => void
+  handleClose: () => void,
+  selectedAccountData: any,
+  handleDeleteAccount: (username: string) => void
 }
 
 function DeleteAccount(props: Props) {
-  const { open, handleClose } = props;
+  const { open, handleClose, selectedAccountData, handleDeleteAccount } = props;
+  const { first_name, last_name, username } = selectedAccountData
 
   return (
     <BootstrapDialog
@@ -19,11 +22,11 @@ function DeleteAccount(props: Props) {
 
       <DialogContent dividers>
         <div>
-          <label htmlFor="medicine-description">Are you sure you want to delete *name*?</label><br></br>
+          <label htmlFor="medicine-description">Are you sure you want to delete <b>{`${first_name} ${last_name}`}</b>?</label><br></br>
         </div>
       </DialogContent>
       <DialogActions>
-        <Button className="cancel-btn-modal" color='error' variant='contained' onClick={() => { }}>Delete</Button>
+        <Button className="cancel-btn-modal" color='error' variant='contained' onClick={() => { handleDeleteAccount(username) }}>Delete</Button>
         &nbsp;
         <Button className="save-btn-modal" color="success" variant="contained" onClick={handleClose}>Cancel</Button>
       </DialogActions>

@@ -3,6 +3,8 @@ import AddPatientRecord from "./AddPatientRecord";
 import VerifyAccount from "./VerifyAccount";
 import AddOrganization from "./AddOrganization";
 
+import CreateAccount from "./CreateAccount";
+
 import EditPatientRecord from "./EditPatientRecord";
 import EditAccount from "./EditAccount";
 import EditOrganization from "./EditOrganization";
@@ -20,6 +22,7 @@ export {
   AddPatientRecord,
   VerifyAccount,
   AddOrganization,
+  CreateAccount,
   EditPatientRecord,
   EditAccount,
   EditOrganization,

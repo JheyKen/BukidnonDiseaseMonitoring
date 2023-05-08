@@ -1,8 +1,9 @@
-import { ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import '../App.css';
 import { Grid, Button, Paper, TextField } from "@mui/material";
+import CreateAccount from '../Modals/CreateAccount';
 
-const paperStyle = { padding: '30px 20px 20px 20px', height: 300, width: 280, margin: "20px auto" }
+const paperStyle = { padding: '10px 20px 20px 20px', height: 330, width: 280, margin: "20px auto" }
 const marginStyle = { margin: '8px 0' }
 const btnStyle = { margin: '30px 0', backgroundColor: '#115293', color: 'white' }
 
@@ -16,6 +17,16 @@ interface Props {
 function Login(props: Props) {
   const { username, password, handleLogin, handleLoginInputs } = props
 
+  const [openCreateAccountModal, setOpenCreateAccountModal] = useState(false)
+
+  const handleOpenCreateAccountModal = () => {
+    setOpenCreateAccountModal(true);
+  }
+
+  const handleCloseCreateAccountModal = () => {
+    setOpenCreateAccountModal(false);
+  }
+
   return (
     <div className="box">
       <Grid>
@@ -28,8 +39,19 @@ function Login(props: Props) {
             <TextField name="password" label="Password" placeholder="Enter Password" type="password" style={marginStyle} value={password} onChange={(event: ChangeEvent<HTMLInputElement>) => handleLoginInputs(event)} fullWidth required />
             <Button type="submit" variant="contained" style={btnStyle} fullWidth >Submit</Button>
           </form>
+          <div>
+            <Button onClick={handleOpenCreateAccountModal}>
+              Create Account
+            </Button>
+          </div>
         </Paper>
       </Grid>
+
+      <CreateAccount
+        open={openCreateAccountModal}
+        handleClose={handleCloseCreateAccountModal}
+      />
+
     </div>
   )
 }
