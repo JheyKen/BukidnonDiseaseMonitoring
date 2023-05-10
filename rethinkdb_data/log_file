@@ -158,3 +158,32 @@
 2023-05-08T22:02:27.566273500 2.269059s info: Table ff9394e3-6119-4530-8ede-9b8e9d0e5a04: Starting a new Raft election for term 6.
 2023-05-08T22:02:27.740146800 2.443643s info: Table ff9394e3-6119-4530-8ede-9b8e9d0e5a04: This server is Raft leader for term 6. Latest log index is 17.
 2023-05-08T22:02:28.404685200 3.107458s warn: Problem when checking for new versions of RethinkDB: HTTP request to update.rethinkdb.com failed.
+2023-05-10T15:52:55.774690100 0.368065s notice: Running rethinkdb 2.3.6-windows (MSC 190024215)...
+2023-05-10T15:52:55.790767600 0.383647s notice: Running on 6.2.9200 (Windows 8, Server 2012)
+2023-05-10T15:52:55.791768400 0.384816s notice: Loading data from directory C:\\Users\\user\\Desktop\\Capstone\\BukidnonDiseaseMonitoringSystem\\rethinkdb_data
+2023-05-10T15:52:56.601989600 1.196138s info: Automatically using cache size of 426 MB
+2023-05-10T15:52:56.788381000 1.381548s notice: Listening for intracluster connections on port 29015
+2023-05-10T15:52:58.423732900 3.017359s notice: Listening for client driver connections on port 28015
+2023-05-10T15:52:58.424733500 3.017762s notice: Listening for administrative HTTP connections on port 8080
+2023-05-10T15:52:58.424733501 3.017766s notice: Listening on cluster address: 127.0.0.1
+2023-05-10T15:52:58.424733502 3.017768s notice: Listening on driver address: 127.0.0.1
+2023-05-10T15:52:58.424733503 3.017825s notice: Listening on http address: 127.0.0.1
+2023-05-10T15:52:58.424733504 3.017828s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2023-05-10T15:52:58.424733505 3.017831s notice: Server ready, "LAPTOP_U4HPU2L2_o4x" b0d6e7d1-3319-4e48-ac0d-b7301ad299da
+2023-05-10T15:52:59.320186100 3.913191s info: Table 24421bb9-987a-4cbf-9c2d-4c943560be7d: Starting a new Raft election for term 7.
+2023-05-10T15:52:59.492969500 4.086080s info: Table 24421bb9-987a-4cbf-9c2d-4c943560be7d: This server is Raft leader for term 7. Latest log index is 19.
+2023-05-10T15:53:00.108654700 4.701800s info: Table 867e40f3-2e9e-4bce-8ac4-fbc70e2e95db: Starting a new Raft election for term 7.
+2023-05-10T15:53:00.310872900 4.904212s info: Table ff9394e3-6119-4530-8ede-9b8e9d0e5a04: Starting a new Raft election for term 7.
+2023-05-10T15:53:00.343664000 4.936777s info: Table 867e40f3-2e9e-4bce-8ac4-fbc70e2e95db: This server is Raft leader for term 7. Latest log index is 19.
+2023-05-10T15:53:00.426932700 5.019732s info: Table ff9394e3-6119-4530-8ede-9b8e9d0e5a04: This server is Raft leader for term 7. Latest log index is 20.
+2023-05-10T15:53:01.349135500 5.941941s warn: Problem when checking for new versions of RethinkDB: HTTP request to update.rethinkdb.com failed.
+2023-05-10T17:00:37.637343500 4062.231085s info: Table 813028cd-211d-4c98-8afa-8aca39ac0343: Starting a new Raft election for term 1.
+2023-05-10T17:00:37.684146600 4062.277926s info: Table 813028cd-211d-4c98-8afa-8aca39ac0343: Added replica on this server.
+2023-05-10T17:00:37.984175800 4062.577150s info: Table 813028cd-211d-4c98-8afa-8aca39ac0343: This server is Raft leader for term 1. Latest log index is 0.
+2023-05-10T17:00:46.255800500 4070.848654s info: Table a7d7397a-2bf9-4d93-9b7f-029830859375: Starting a new Raft election for term 1.
+2023-05-10T17:00:46.256799500 4070.850734s info: Table a7d7397a-2bf9-4d93-9b7f-029830859375: Added replica on this server.
+2023-05-10T17:00:46.381274100 4070.975024s info: Table a7d7397a-2bf9-4d93-9b7f-029830859375: This server is Raft leader for term 1. Latest log index is 0.
+2023-05-10T17:08:55.246463500 4559.840170s notice: Removing file C:\\Users\\user\\Desktop\\Capstone\\BukidnonDiseaseMonitoringSystem\\rethinkdb_data\\813028cd-211d-4c98-8afa-8aca39ac0343
+2023-05-10T17:08:55.246463501 4559.840184s info: Table 813028cd-211d-4c98-8afa-8aca39ac0343: Deleted the table.
+2023-05-10T17:08:55.320481900 4559.913366s notice: Removing file C:\\Users\\user\\Desktop\\Capstone\\BukidnonDiseaseMonitoringSystem\\rethinkdb_data\\a7d7397a-2bf9-4d93-9b7f-029830859375
+2023-05-10T17:08:55.320481901 4559.913372s info: Table a7d7397a-2bf9-4d93-9b7f-029830859375: Deleted the table.
