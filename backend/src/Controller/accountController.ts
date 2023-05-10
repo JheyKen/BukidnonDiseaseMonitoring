@@ -83,7 +83,6 @@ const accountController = {
   createAccount: async (req: Request, res: Response) => {
     try {
       const { createData } = req.body
-      console.log(req.body)
 
       const checkIfUsernameExist = await accountModel.getAccountByUsername(createData.username)
 
@@ -139,7 +138,7 @@ const accountController = {
         })
       } else {
         const data: any = await accountModel.editAccount(username, editParam)
-        console.log("hey", data)
+
         res.status(200).send({
           error: 0,
           data: data,

@@ -76,6 +76,67 @@ const Service = {
       throw error
     }
   },
+  getPatientById: async (id: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/patient/getById/${id}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  addPatient: async (patientData: object) => {
+    try {
+      const data: AxiosResponse = await axios.post('/patient/addPatient', {
+        patientData
+      })
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  editPatient: async (patientData: object) => {
+    try {
+      const data: AxiosResponse = await axios.put('/patient/editPatient', {
+        patientData
+      })
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  deletePatient: async (id: string) => {
+    try {
+      const data: AxiosResponse = await axios.delete(`/patient/deletePatient/${id}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  //victims
+  getVictimsCountPerMunicipality: async (diagnosis: string, municipality: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/victimsCountPerMunicipality/${diagnosis}/${municipality}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  getVictimsCountPerGender: async (diagnosis: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/gender/${diagnosis}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  getVictimsCountPerAge: async (diagnosis: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/age/${diagnosis}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
   //organizations
   getAllOrganizations: async () => {
     try {

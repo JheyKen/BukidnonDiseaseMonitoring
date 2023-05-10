@@ -127,7 +127,13 @@
   width: 20pc;
 }
 
+.patient_inputs {
+  width: 18pc;
+}
 
+.echarts-for-react {
+  height: 320px !important;
+}
 
 /* Modal Sizes */
 #verify_account .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
@@ -146,7 +152,7 @@
 
 #add_patient .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
   max-width: 1300px;
-  max-height: 450px;
+  max-height: 400px;
   width: 1300px;
-  height: 450px;
+  height: 400px;
 }

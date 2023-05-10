@@ -28,15 +28,19 @@ function PatientRecord() {
   const [openViewPatientModal, setOpenViewPatientModal] = useState(false);
   const [openEditPatientModal, setOpenEditPatientModal] = useState(false);
   const [openDeletePatientModal, setOpenDeletePatientModal] = useState(false);
+  const [selectedPatientData, setSelectedPatientData] = useState({}) //holds the data of the patient to be edited/view/deleted
+  const [addPatient, setAddPatient] = useState([])
+  const [editPatient, setEditPatient] = useState([])
+  const [deletePatient, setDeletePatient] = useState([])
 
   useEffect(() => {
     handleAllPatients();
-  }, [])
+  }, [addPatient, editPatient, deletePatient])
 
   const handleAllPatients = async () => {
     try {
       const result: AxiosResponse = await Service.getAllPatients()
-      const {data} = result
+      const { data } = result
       setAllPatients(data)
       setSearchedRows(data)
     } catch (error) {
@@ -44,17 +48,59 @@ function PatientRecord() {
     }
   }
 
+  const handleAddPatient = async (patientData: object) => {
+    try {
+      const result: AxiosResponse = await Service.addPatient(patientData)
+      const { data } = result
+      alert("Successfully created record.")
+
+      setAddPatient(data)
+      setOpenAddPatientModal(false);
+      setSelectedPatientData([])
+    } catch (error) {
+      alert("Error creating record.")
+    }
+  }
+
+  const handleEditPatient = async (patientData: object) => {
+    try {
+      const result: AxiosResponse = await Service.editPatient(patientData)
+      const { data } = result
+      alert("Successfully edited record.")
+
+      setEditPatient(data)
+      setOpenEditPatientModal(false);
+      setSelectedPatientData([])
+    } catch (error) {
+      alert("Error editing record.")
+    }
+  }
+
+  const handleDeleteAccount = async (id: string) => {
+    try {
+      const result: AxiosResponse = await Service.deletePatient(id);
+      const { data } = result
+      alert("Successfully deleted record.")
+
+      setOpenDeletePatientModal(false);
+      setDeletePatient(data)
+      setSelectedPatientData([])
+    } catch (error) {
+      alert("Error deleting record.")
+    }
+  }
+
   const searchRow = (event: any) => {
-    const {value} = event.target
+    const { value } = event.target
 
     if (!value || value === '') {
       setSearchedRows(allPatients)
     }
     else {
       const filterRow = allPatients.filter((row: any) => {
-        return row.first_name.toLowerCase().includes(value.toLowerCase()) || 
-                    row.middle_name.toLowerCase().includes(value.toLowerCase()) ||
-                    row.last_name.toLowerCase().includes(value.toLowerCase())
+        return row.first_name.toLowerCase().includes(value.toLowerCase()) ||
+          row.middle_name.toLowerCase().includes(value.toLowerCase()) ||
+          row.last_name.toLowerCase().includes(value.toLowerCase())
       })
       setSearchedRows(filterRow)
     }
@@ -97,7 +143,7 @@ function PatientRecord() {
   }
 
   return (
-    <div style={{paddingLeft: '15px'}}>
+    <div style={{ paddingLeft: '15px' }}>
       <div style={{ textAlign: 'center', paddingBottom: '20px' }}>
         <span style={{ fontSize: '30px', fontWeight: 'bold' }}>Patient Record</span>
       </div>
@@ -157,11 +203,11 @@ function PatientRecord() {
                         <TableCell align="center">{row.gender}</TableCell>
                         <TableCell align="center">{row.diagnosis}</TableCell>
                         <TableCell align='center'>
-                          <Button color='primary' variant='contained' className='table-btn' onClick={handleOpenEditPatientModal}>
+                          <Button color='primary' variant='contained' className='table-btn' onClick={() => { setSelectedPatientData(row.id); handleOpenEditPatientModal() }}>
                             <Edit style={{ color: 'white' }} />
                           </Button>
                           &emsp;
-                          <Button color='error' variant='contained' onClick={handleOpenDeletePatientModal}>
+                          <Button color='error' variant='contained' onClick={() => { setSelectedPatientData(row); handleOpenDeletePatientModal() }}>
                             <Delete style={{ color: 'white' }} />
                           </Button>
                         </TableCell>
@@ -185,6 +231,7 @@ function PatientRecord() {
       <AddPatientRecord
         open={openAddPatientModal}
         handleClose={handleCloseAddPatientModal}
+        handleAddPatient={handleAddPatient}
       />
 
       <ViewPatientRecord
@@ -195,11 +242,15 @@ function PatientRecord() {
       <EditPatientRecord
         open={openEditPatientModal}
         handleClose={handleCloseEditPatientModal}
+        handleEditPatient={handleEditPatient}
+        selectedPatientData={selectedPatientData}
       />
 
       <DeletePatientRecord
         open={openDeletePatientModal}
         handleClose={handleCloseDeletePatientModal}
+        handleDeleteAccount={handleDeleteAccount}
+        selectedPatientData={selectedPatientData}
       />
     </div>
   )
