@@ -20,8 +20,22 @@ const victimModel = {
     return await db.table(diagnosis).filter(db.row('age').ge(64)).count();
   },
   addPatientRecordToDiagnosis: async (diagnosis: string, data: object) => {
-    return await db.table(diagnosis).insert(data)
+    return await db.table(diagnosis).insert({
+      ...data,
+      //@ts-ignore
+      date_diagnosed: db.ISO8601(data.date_diagnosed)
+    });
   },
+  editPatientRecordToDiagnosis: async (diagnosis: string, patientID: string, data: object) => {
+    return await db.table(diagnosis).filter({ patient_id: patientID }).update({
+      ...data,
+      //@ts-ignore
+      date_diagnosed: db.ISO8601(data.date_diagnosed)
+    });
+  },
+  deletePatientRecordToDiagnosis: async (id: string, diagnosis: string) => {
+    return await db.table(diagnosis).filter({ patient_id: id }).delete();
+  }
 }
 
 export default victimModel

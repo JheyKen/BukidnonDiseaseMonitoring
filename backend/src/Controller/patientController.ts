@@ -71,10 +71,12 @@ const patientController = {
             const data = await patientModel.addPatient(newData);
 
             const addToDiagnosis = {
-                id: data.id,
+                patient_id: data.generated_keys[0],
                 gender: patientData.gender,
                 age: computedAge,
-                municipality: patientData.municipality
+                municipality: patientData.municipality,
+                barangay: patientData.barangay,
+                date_diagnosed: new Date(patientData.date_diagnosed).toISOString()
             }
 
             const diagnosis = patientData.diagnosis.toLowerCase()
@@ -118,11 +120,30 @@ const patientController = {
 
                 const data = await patientModel.editPatient(patientData.id, newData);
 
-                res.status(200).send({
-                    error: 0,
-                    data: data,
-                    message: 'Success.'
-                })
+                if (data) {
+                    const editToDiagnosis = {
+                        gender: patientData.gender,
+                        age: computedAge,
+                        municipality: patientData.municipality,
+                        barangay: patientData.barangay,
+                        date_diagnosed: new Date(patientData.date_diagnosed).toISOString()
+                    }
+
+                    const diagnosis = patientData.diagnosis.toLowerCase()
+                    const patientReturnData = await victimModel.editPatientRecordToDiagnosis(diagnosis, patientData.id, editToDiagnosis)
+
+                    res.status(200).send({
+                        error: 0,
+                        data: patientReturnData,
+                        message: 'Success.'
+                    })
+                } else {
+                    res.status(400).send({
+                        error: 1,
+                        data: null,
+                        message: "Patient not edited to its corresponding Diagnosis data."
+                    })
+                }
             }
         } catch (error: any) {
             res.status(400).send({
@@ -136,13 +157,25 @@ const patientController = {
         try {
             const { id } = req.params
 
-            const data: any = await patientModel.deletePatient(id)
-            res.status(200).send({
-                error: 0,
-                data: data,
-                message: 'Success'
-            })
+            const patientIsExist: any = await patientModel.getPatientById(id);
 
+            if (patientIsExist.length) {
+                const data: any = await patientModel.deletePatient(id);
+
+                await victimModel.deletePatientRecordToDiagnosis(id, patientIsExist[0].diagnosis.toLowerCase());
+
+                res.status(200).send({
+                    error: 0,
+                    data: data,
+                    message: 'Success'
+                })
+            } else {
+                res.status(400).send({
+                    error: 0,
+                    data: null,
+                    message: 'Patient not found.'
+                })
+            }
         } catch (error: any) {
             res.status(400).send({
                 error: 1,

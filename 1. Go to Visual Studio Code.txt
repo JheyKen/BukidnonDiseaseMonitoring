@@ -6,3 +6,7 @@
 6. npm start sa frontend last
 7. Go to browser enter localhost:3000 for the system
 8. New tab, enter localhost:8080 for the database
+
+
+Notes:
+r.db('bpdms_database').table('dengue').filter(r.row('date_diagnosed').gt(r.ISO8601(start_date in ISO String))).filter(r.row('date_diagnosed').lt(r.ISO8601(end_date in ISO string)))
