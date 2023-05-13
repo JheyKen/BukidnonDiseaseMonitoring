@@ -113,25 +113,33 @@ const Service = {
     }
   },
   //victims
-  getVictimsCountPerMunicipality: async (diagnosis: string, municipality: string) => {
+  getVictimsCountPerMunicipality: async (diagnosis: string, municipality: string, date_from: any, date_to: any) => {
     try {
-      const data: AxiosResponse = await axios.get(`/victim/victimsCountPerMunicipality/${diagnosis}/${municipality}`)
+      const data: AxiosResponse = await axios.get(`/victim/victimsCountPerMunicipality/${diagnosis}/${municipality}/${date_from}/${date_to}`)
       return data.data
     } catch (error) {
       throw error
     }
   },
-  getVictimsCountPerGender: async (diagnosis: string) => {
+  getVictimsCountPerGender: async (diagnosis: string, date_from: any, date_to: any) => {
     try {
-      const data: AxiosResponse = await axios.get(`/victim/gender/${diagnosis}`)
+      const data: AxiosResponse = await axios.get(`/victim/gender/${diagnosis}/${date_from}/${date_to}`)
       return data.data
     } catch (error) {
       throw error
     }
   },
-  getVictimsCountPerAge: async (diagnosis: string) => {
+  getVictimsCountPerAge: async (diagnosis: string, date_from: any, date_to: any) => {
     try {
-      const data: AxiosResponse = await axios.get(`/victim/age/${diagnosis}`)
+      const data: AxiosResponse = await axios.get(`/victim/age/${diagnosis}/${date_from}/${date_to}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  getVictimsPerDiagnosisPerYear: async (diagnosis: string, year: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/victimsPerDiagnosisPerYear/${diagnosis}/${year}`)
       return data.data
     } catch (error) {
       throw error

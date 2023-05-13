@@ -100,7 +100,6 @@ class App extends React.Component<Props, State> {
             password: '',
             name: `${data.first_name} ${data.middle_name} ${data.last_name}`
           })
-          console.log("🚀 ~ this.state:", this.state)
         }
       }
     } catch (error) {
@@ -115,8 +114,6 @@ class App extends React.Component<Props, State> {
   }
 
   render() {
-    console.log("🚀 ~ this.state:", this.state)
-
     return (
       <div className="App">
         <div id='Header'>

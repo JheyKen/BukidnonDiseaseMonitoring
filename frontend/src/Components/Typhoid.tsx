@@ -21,21 +21,21 @@ const secondPaperStyle = { padding: '20px 20px 30px 20px', height: 370, width: 5
 
 function Typhoid() {
   const rows: number = 5;
+  const dateToday = `${new Date().toLocaleDateString('fr-CA')}`
 
   const [victimsCount, setVictimsCount] = useState([])
   const [victimsGender, setVictimsGender] = useState([])
   const [victimsAge, setVictimsAge] = useState([])
   const [loading, setLoading] = useState(true)
-  const [dataPeriod, setDataPeriod] = useState("Daily")
   const [page, setPage] = useState(0);
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
+  const [dateFrom, setDateFrom] = useState(dateToday);
+  const [dateTo, setDateTo] = useState(dateToday);
 
   useEffect(() => {
     handleVictimsCount();
     handleVictimsGender();
     handleVictimsAge();
-  }, [])
+  }, [dateFrom, dateTo])
 
   const handleVictimsCount = async () => {
     try {
@@ -43,8 +43,10 @@ function Typhoid() {
       const returnData = []
       while (x < Municipality.length) {
         let municipalityData = Municipality[x]
+        const date_from = new Date(dateFrom).valueOf();
+        const date_to = new Date(dateTo).valueOf();
 
-        const result: AxiosResponse = await Service.getVictimsCountPerMunicipality("typhoid", municipalityData.name);
+        const result: AxiosResponse = await Service.getVictimsCountPerMunicipality("typhoid", municipalityData.name, date_from, date_to);
         const { data } = result
         returnData.push({ city: municipalityData.name, count: data })
         x++;
@@ -60,7 +62,10 @@ function Typhoid() {
 
   const handleVictimsGender = async () => {
     try {
-      const result: AxiosResponse = await Service.getVictimsCountPerGender("typhoid")
+      const date_from = new Date(dateFrom).valueOf();
+      const date_to = new Date(dateTo).valueOf();
+
+      const result: AxiosResponse = await Service.getVictimsCountPerGender("typhoid", date_from, date_to)
       const { data } = result
       setVictimsGender(data)
     } catch (error) {
@@ -70,7 +75,10 @@ function Typhoid() {
 
   const handleVictimsAge = async () => {
     try {
-      const result: AxiosResponse = await Service.getVictimsCountPerAge("typhoid")
+      const date_from = new Date(dateFrom).valueOf();
+      const date_to = new Date(dateTo).valueOf();
+
+      const result: AxiosResponse = await Service.getVictimsCountPerAge("typhoid", date_from, date_to)
       const { data } = result
       setVictimsAge(data)
     } catch (error) {

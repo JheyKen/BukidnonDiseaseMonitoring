@@ -1,6 +1,8 @@
 import { Grid, Paper, Select, MenuItem } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { VerticalBarChart } from 'amazing-react-charts';
+import { AxiosResponse } from "axios";
+import Service from "../Service/Service";
 
 const paperStyle = { padding: '30px 20px 20px 20px', height: 430, width: 300, margin: "20px auto" }
 
@@ -22,9 +24,48 @@ const graphContent = [
 ]
 
 function Dashboard() {
-  const [dengueYear, setDengueYear] = useState(new Date().getFullYear());
-  const [influenzaYear, setInfluenzaYear] = useState(new Date().getFullYear());
-  const [typhoidYear, setTyphoidYear] = useState(new Date().getFullYear());
+  const [dengueYear, setDengueYear] = useState(new Date().getFullYear().toString());
+  const [influenzaYear, setInfluenzaYear] = useState(new Date().getFullYear().toString());
+  const [typhoidYear, setTyphoidYear] = useState(new Date().getFullYear().toString());
+  const [dengueData, setDengueData] = useState([])
+  const [influenzaData, setInfluenzaData] = useState([])
+  const [typhoidData, setTyphoidData] = useState([])
+
+  useEffect(() => {
+    // handleGetDengueVictimsPerYear();
+    // handleGetInfluenzaVictimsPerYear();
+    // handleGetTyphoidVictimsPerYear();
+  }, [dengueYear, influenzaYear, typhoidYear])
+
+  // const handleGetDengueVictimsPerYear = async () => {
+  //   try {
+  //     const result: AxiosResponse = await Service.getVictimsPerDiagnosisPerYear('dengue', dengueYear)
+  //     const { data } = result
+  //     setDengueData(data)
+  //   } catch (error) {
+  //     alert(error)
+  //   }
+  // }
+
+  // const handleGetInfluenzaVictimsPerYear = async () => {
+  //   try {
+  //     const result: AxiosResponse = await Service.getVictimsPerDiagnosisPerYear('influenza', influenzaYear)
+  //     const { data } = result
+  //     setInfluenzaData(data)
+  //   } catch (error) {
+  //     alert(error)
+  //   }
+  // }
+
+  // const handleGetTyphoidVictimsPerYear = async () => {
+  //   try {
+  //     const result: AxiosResponse = await Service.getVictimsPerDiagnosisPerYear('typhoid', typhoidYear)
+  //     const { data } = result
+  //     setTyphoidData(data)
+  //   } catch (error) {
+  //     alert(error)
+  //   }
+  // }
 
   const handleChangeDengueYear = (event: any) => {
     const { value } = event.target
@@ -53,7 +94,7 @@ function Dashboard() {
                 rotateLabel={90}
                 xType="value"
                 color="blue"
-                data={graphContent}
+                data={dengueData}
               />
             </div>
             <span>
@@ -84,7 +125,7 @@ function Dashboard() {
                 rotateLabel={90}
                 xType="value"
                 color="blue"
-                data={graphContent}
+                data={influenzaData}
               />
             </div>
             <span>
@@ -115,7 +156,7 @@ function Dashboard() {
                 rotateLabel={90}
                 xType="value"
                 color="blue"
-                data={graphContent}
+                data={typhoidData}
               />
             </div>
             <span>
