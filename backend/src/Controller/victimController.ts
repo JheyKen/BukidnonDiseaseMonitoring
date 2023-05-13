@@ -84,38 +84,17 @@ const victimController = {
       })
     }
   },
-  getVictimsPerDiagnosisPerYear: async (req: Request, res: Response) => {
+  getVictimsPerDiagnosisPerMonth: async (req: Request, res: Response) => {
     try {
-      const { diagnosis, year } = req.params
+      const { diagnosis, year, month } = req.params
 
-      const yearOnly = new Date(year).getFullYear();
-      const data = await victimModel.getVictimsPerDiagnosisPerYear(diagnosis, yearOnly)
+      const data = await victimModel.getVictimsPerDiagnosisPerMonth(diagnosis, Number(year), Number(month))
 
-      const compiledData = data.reduce((acc: any, item: any) => {
-        let key = new Date(item['date_diagnosed']).getMonth()
-
-        if (!acc[key]) {
-          acc[key] = []
-        }
-
-        acc[key].push(item)
-
-        return acc
-      }, {})
-
-      if (data.length) {
-        res.status(200).send({
-          error: 0,
-          data: compiledData,
-          message: 'Success'
-        })
-      } else {
-        res.status(200).send({
-          error: 0,
-          data: data,
-          message: 'No data found.'
-        })
-      }
+      res.status(200).send({
+        error: 0,
+        data: data,
+        message: 'Success'
+      })
     } catch (error: any) {
       res.status(400).send({
         error: 1,

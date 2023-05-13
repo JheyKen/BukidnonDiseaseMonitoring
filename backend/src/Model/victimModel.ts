@@ -43,8 +43,12 @@ const victimModel = {
       db.row('date_diagnosed').lt(db.ISO8601(date_to))
     ).filter(db.row('age').ge(64)).count();
   },
-  getVictimsPerDiagnosisPerYear: async (diagnosis: string, year: any) => {
-    return await db.table(diagnosis).filter(db.row('date_diagnosed').year().eq(year))
+  getVictimsPerDiagnosisPerMonth: async (diagnosis: string, year: number, month: number) => {
+    return await db.table(diagnosis).filter(
+      db.row('date_diagnosed').year().eq(year)
+    ).filter(
+      db.row('date_diagnosed').month().eq(month)
+    ).count();
   },
   addPatientRecordToDiagnosis: async (diagnosis: string, data: object) => {
     return await db.table(diagnosis).insert({

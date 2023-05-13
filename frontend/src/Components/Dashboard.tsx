@@ -30,42 +30,80 @@ function Dashboard() {
   const [dengueData, setDengueData] = useState([])
   const [influenzaData, setInfluenzaData] = useState([])
   const [typhoidData, setTyphoidData] = useState([])
+  const [dengueLoading, setDengueLoading] = useState(true)
+  const [influenzaLoading, setInfluenzaLoading] = useState(true)
+  const [typhoidLoading, setTyphoidLoading] = useState(true)
+
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   useEffect(() => {
-    // handleGetDengueVictimsPerYear();
-    // handleGetInfluenzaVictimsPerYear();
-    // handleGetTyphoidVictimsPerYear();
+    handleGetDengueVictimsPerYear();
+    handleGetInfluenzaVictimsPerYear();
+    handleGetTyphoidVictimsPerYear();
   }, [dengueYear, influenzaYear, typhoidYear])
 
-  // const handleGetDengueVictimsPerYear = async () => {
-  //   try {
-  //     const result: AxiosResponse = await Service.getVictimsPerDiagnosisPerYear('dengue', dengueYear)
-  //     const { data } = result
-  //     setDengueData(data)
-  //   } catch (error) {
-  //     alert(error)
-  //   }
-  // }
+  const handleGetDengueVictimsPerYear = async () => {
+    try {
+      setDengueLoading(true)
+      let month = 1;
+      const year = Number(dengueYear)
+      const returnData = []
+      while (month < 13) {
+        const result: AxiosResponse = await Service.getVictimsPerDiagnosisPerMonth("dengue", year, month);
+        const { data } = result
+        returnData.push({ label: monthNames[month - 1], result: data })
+        month++;
+      }
 
-  // const handleGetInfluenzaVictimsPerYear = async () => {
-  //   try {
-  //     const result: AxiosResponse = await Service.getVictimsPerDiagnosisPerYear('influenza', influenzaYear)
-  //     const { data } = result
-  //     setInfluenzaData(data)
-  //   } catch (error) {
-  //     alert(error)
-  //   }
-  // }
+      //@ts-ignore
+      setDengueData(returnData)
+      setDengueLoading(false)
+    } catch (error) {
+      alert("Error fetching record.")
+    }
+  }
 
-  // const handleGetTyphoidVictimsPerYear = async () => {
-  //   try {
-  //     const result: AxiosResponse = await Service.getVictimsPerDiagnosisPerYear('typhoid', typhoidYear)
-  //     const { data } = result
-  //     setTyphoidData(data)
-  //   } catch (error) {
-  //     alert(error)
-  //   }
-  // }
+  const handleGetInfluenzaVictimsPerYear = async () => {
+    try {
+      setInfluenzaLoading(true)
+      let month = 1;
+      const year = Number(influenzaYear)
+      const returnData = []
+      while (month < 13) {
+        const result: AxiosResponse = await Service.getVictimsPerDiagnosisPerMonth("influenza", year, month);
+        const { data } = result
+        returnData.push({ label: monthNames[month - 1], result: data })
+        month++;
+      }
+
+      //@ts-ignore
+      setInfluenzaData(returnData)
+      setInfluenzaLoading(false)
+    } catch (error) {
+      alert("Error fetching record.")
+    }
+  }
+
+  const handleGetTyphoidVictimsPerYear = async () => {
+    try {
+      setTyphoidLoading(true)
+      let month = 1;
+      const year = Number(typhoidYear)
+      const returnData = []
+      while (month < 13) {
+        const result: AxiosResponse = await Service.getVictimsPerDiagnosisPerMonth("typhoid", year, month);
+        const { data } = result
+        returnData.push({ label: monthNames[month - 1], result: data })
+        month++;
+      }
+
+      //@ts-ignore
+      setTyphoidData(returnData)
+      setTyphoidLoading(false)
+    } catch (error) {
+      alert("Error fetching record.")
+    }
+  }
 
   const handleChangeDengueYear = (event: any) => {
     const { value } = event.target
@@ -88,15 +126,6 @@ function Dashboard() {
         <Paper elevation={10} style={paperStyle}>
           <Grid>
             <h2>Dengue</h2>
-            <div style={{ paddingLeft: '10px', transform: 'translate(0px, -20px)' }}>
-              <VerticalBarChart
-                showBarLabel
-                rotateLabel={90}
-                xType="value"
-                color="blue"
-                data={dengueData}
-              />
-            </div>
             <span>
               Select Year: &emsp;
               <Select
@@ -111,6 +140,20 @@ function Dashboard() {
                 )}
               </Select>
             </span>
+            <div style={{ paddingLeft: '10px', transform: 'translate(0px, -20px)' }}>
+              {
+                dengueLoading ?
+                  <div style={{ paddingTop: '30px', fontWeight: 'bold' }}>Loading Chart...</div>
+                  :
+                  <VerticalBarChart
+                    showBarLabel
+                    rotateLabel={90}
+                    xType="value"
+                    color="blue"
+                    data={dengueData}
+                  />
+              }
+            </div>
           </Grid>
         </Paper>
       </div>
@@ -119,15 +162,6 @@ function Dashboard() {
         <Paper elevation={10} style={paperStyle}>
           <Grid>
             <h2>Influenza</h2>
-            <div style={{ paddingLeft: '10px', transform: 'translate(0px, -20px)' }}>
-              <VerticalBarChart
-                showBarLabel
-                rotateLabel={90}
-                xType="value"
-                color="blue"
-                data={influenzaData}
-              />
-            </div>
             <span>
               Select Year: &emsp;
               <Select
@@ -142,6 +176,20 @@ function Dashboard() {
                 )}
               </Select>
             </span>
+            <div style={{ paddingLeft: '10px', transform: 'translate(0px, -20px)' }}>
+              {
+                influenzaLoading ?
+                  <div style={{ paddingTop: '30px', fontWeight: 'bold' }}>Loading Chart...</div>
+                  :
+                  <VerticalBarChart
+                    showBarLabel
+                    rotateLabel={90}
+                    xType="value"
+                    color="blue"
+                    data={influenzaData}
+                  />
+              }
+            </div>
           </Grid>
         </Paper>
       </div>
@@ -150,15 +198,6 @@ function Dashboard() {
         <Paper elevation={10} style={paperStyle}>
           <Grid>
             <h2>Typhoid</h2>
-            <div style={{ paddingLeft: '10px', transform: 'translate(0px, -20px)' }}>
-              <VerticalBarChart
-                showBarLabel
-                rotateLabel={90}
-                xType="value"
-                color="blue"
-                data={typhoidData}
-              />
-            </div>
             <span>
               Select Year: &emsp;
               <Select
@@ -173,6 +212,20 @@ function Dashboard() {
                 )}
               </Select>
             </span>
+            <div style={{ paddingLeft: '10px', transform: 'translate(0px, -20px)' }}>
+              {
+                typhoidLoading ?
+                  <div style={{ paddingTop: '30px', fontWeight: 'bold' }}>Loading Chart...</div>
+                  :
+                  <VerticalBarChart
+                    showBarLabel
+                    rotateLabel={90}
+                    xType="value"
+                    color="blue"
+                    data={typhoidData}
+                  />
+              }
+            </div>
           </Grid>
         </Paper>
       </div>

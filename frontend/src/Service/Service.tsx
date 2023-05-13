@@ -137,9 +137,9 @@ const Service = {
       throw error
     }
   },
-  getVictimsPerDiagnosisPerYear: async (diagnosis: string, year: string) => {
+  getVictimsPerDiagnosisPerMonth: async (diagnosis: string, year: number, month: number) => {
     try {
-      const data: AxiosResponse = await axios.get(`/victim/victimsPerDiagnosisPerYear/${diagnosis}/${year}`)
+      const data: AxiosResponse = await axios.get(`/victim/victimsPerDiagnosisPerMonth/${diagnosis}/${year}/${month}`)
       return data.data
     } catch (error) {
       throw error

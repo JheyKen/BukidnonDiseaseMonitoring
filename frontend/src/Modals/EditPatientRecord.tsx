@@ -180,7 +180,7 @@ function EditPatientRecord(props: Props) {
             </td>
             <td style={{ paddingLeft: '10px' }}>Enter Date Diagnosed:</td>
             <td>
-              <TextField type="date" className="patient_inputs" placeholder="Date Diagnosed" name="date_diagnosed" value={data.date_diagnosed} onChange={handleInputs} />
+              <TextField type="date" className="patient_inputs" placeholder="Date Diagnosed" name="date_diagnosed" value={`${new Date(data.date_diagnosed).toLocaleDateString('fr-CA')}`} onChange={handleInputs} />
             </td>
           </tr>
         </table>
