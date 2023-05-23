@@ -5,7 +5,7 @@ const commonModel = {
     return await db.table('accounts').filter({ username })
   },
   getBarangayByMunicipality: async (municipality: string) => {
-    return await db.table("barangay").filter({ municipality })
+    return await db.table("barangay").filter({ municipality }).orderBy('barangay');
   }
 }
 
