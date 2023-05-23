@@ -5,4 +5,6 @@ const commonRoutes = express.Router();
 
 commonRoutes.post('/login', commonController.login);
 
+commonRoutes.get('/barangay/:municipality', commonController.getBarangayPerMunicipality)
+
 export default commonRoutes

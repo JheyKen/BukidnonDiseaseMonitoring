@@ -104,7 +104,8 @@ const accountController = {
           org_name: createData.org_name,
           username: createData.username,
           password: hashedPassword,
-          status: "pending"
+          status: "pending",
+          isAdmin: 0
         }
 
         const data: any = await accountModel.createAccount(account)

@@ -13,6 +13,14 @@ const Service = {
       throw error;
     }
   },
+  getBarangayPerMunicipality: async (municipality: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/common/barangay/${municipality}`);
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
   //accounts
   getAllVerifiedAccounts: async () => {
     try {

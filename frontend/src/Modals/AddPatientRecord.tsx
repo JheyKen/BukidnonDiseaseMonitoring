@@ -2,8 +2,9 @@ import { BootstrapDialog, BootstrapDialogTitle } from "./BootstrapDialog";
 import { DialogContent, DialogActions, Button, TextField, Select, MenuItem } from "@mui/material";
 import "../App.css";
 import { Municipality } from "../Data/municipality";
-import { Valencia, Talakag } from "../Data/barangay";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { AxiosResponse } from "axios";
+import Service from "../Service/Service";
 
 interface Props {
   open: boolean,
@@ -28,6 +29,11 @@ function AddPatientRecord(props: Props) {
   const { open, handleClose, handleAddPatient } = props
 
   const [data, setData] = useState(initialData)
+  const [barangay, setBarangay] = useState([])
+
+  useEffect(() => {
+    handleBarangay();
+  }, [data.municipality])
 
   const handleInputs = (event: any) => {
     const { name, value } = event.target
@@ -37,6 +43,20 @@ function AddPatientRecord(props: Props) {
 
   const handleResetData = () => {
     setData(initialData)
+  }
+
+  const handleBarangay = async () => {
+    try {
+      if (data.municipality) {
+        const result: AxiosResponse = await Service.getBarangayPerMunicipality(data.municipality)
+        const { data: resultData } = result
+        setBarangay(resultData)
+      } else {
+        //Do nothing
+      }
+    } catch (error) {
+      alert("Error fetching barangay.")
+    }
   }
 
   return (
@@ -135,9 +155,9 @@ function AddPatientRecord(props: Props) {
                 onChange={handleInputs}
               >
                 {
-                  Valencia.map((row: any) => {
+                  barangay.map((row: any) => {
                     return (
-                      <MenuItem key={row.id} value={row.barangay_name}>{row.barangay_name}</MenuItem>
+                      <MenuItem key={row.id} value={row.barangay}>{row.barangay}</MenuItem>
                     )
                   })
                 }

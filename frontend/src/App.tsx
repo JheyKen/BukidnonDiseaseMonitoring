@@ -92,6 +92,7 @@ class App extends React.Component<Props, State> {
         } else {
           localStorage.setItem('username', data.username)
           localStorage.setItem('login', 'true')
+          localStorage.setItem('isAdmin', data.isAdmin)
 
           this.setState({
             ...this.state,
@@ -135,7 +136,6 @@ class App extends React.Component<Props, State> {
           <Switch>
             <div id={this.state.login ? 'Grid-with-sidebar' : 'Grid'}>
 
-
               <Route exact path='/'>
                 {
                   this.state.login ?
@@ -154,29 +154,35 @@ class App extends React.Component<Props, State> {
                 <PatientRecord />
               </PrivateRoute>
 
-              <PrivateRoute exact path='/dengue'>
-                <Dengue />
-              </PrivateRoute>
+              {
+                Number(localStorageValues('isAdmin')) === 1 ?
+                  <>
+                    <PrivateRoute exact path='/dengue'>
+                      <Dengue />
+                    </PrivateRoute>
 
-              <PrivateRoute exact path='/influenza'>
-                <Influenza />
-              </PrivateRoute>
+                    <PrivateRoute exact path='/influenza'>
+                      <Influenza />
+                    </PrivateRoute>
 
-              <PrivateRoute exact path='/typhoid'>
-                <Typhoid />
-              </PrivateRoute>
+                    <PrivateRoute exact path='/typhoid'>
+                      <Typhoid />
+                    </PrivateRoute>
 
-              <PrivateRoute exact path='/generate-report'>
-                <GenerateReport />
-              </PrivateRoute>
+                    <PrivateRoute exact path='/generate-report'>
+                      <GenerateReport />
+                    </PrivateRoute>
 
-              <PrivateRoute exact path='/manage-account'>
-                <ManageAccount />
-              </PrivateRoute>
+                    <PrivateRoute exact path='/manage-account'>
+                      <ManageAccount />
+                    </PrivateRoute>
 
-              <PrivateRoute exact path='/manage-organization'>
-                <ManageOrganization />
-              </PrivateRoute>
+                    <PrivateRoute exact path='/manage-organization'>
+                      <ManageOrganization />
+                    </PrivateRoute>
+                  </>
+                  : ""
+              }
 
             </div>
           </Switch>
