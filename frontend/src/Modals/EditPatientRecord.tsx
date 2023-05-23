@@ -2,7 +2,7 @@ import { BootstrapDialog, BootstrapDialogTitle } from "./BootstrapDialog";
 import { DialogContent, DialogActions, Button, TextField, Select, MenuItem } from "@mui/material";
 import "../App.css";
 import { Municipality } from "../Data/municipality";
-import { Malaybalay } from "../Data/barangay";
+import { Valencia } from "../Data/barangay";
 import { useState, useEffect } from "react";
 import { AxiosResponse } from "axios";
 import Service from "../Service/Service";
@@ -152,7 +152,7 @@ function EditPatientRecord(props: Props) {
                 onChange={handleInputs}
               >
                 {
-                  Malaybalay.map((row: any) => {
+                  Valencia.map((row: any) => {
                     return (
                       <MenuItem key={row.id} value={row.barangay_name}>{row.barangay_name}</MenuItem>
                     )

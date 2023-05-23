@@ -153,6 +153,43 @@ const Service = {
     } catch (error) {
       throw error
     }
+  },
+  getOrganizationById: async (id: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/organization/getById/${id}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  addOrganization: async (orgData: object) => {
+    try {
+      const data: AxiosResponse = await axios.post('/organization/add', {
+        orgData
+      })
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  editOrganization: async (id: string, orgData: object) => {
+    try {
+      const data: AxiosResponse = await axios.put('/organization/edit', {
+        id,
+        orgData
+      })
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  deleteOrganization: async (id: string) => {
+    try {
+      const data: AxiosResponse = await axios.delete(`/organization/delete/${id}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
   }
 }
 

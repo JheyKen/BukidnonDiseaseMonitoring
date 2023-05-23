@@ -24,6 +24,10 @@ function ManageOrganization() {
   const [allOrganizations, setAllOrganizations] = useState([])
   const [searchedRows, setSearchedRows] = useState([])
   const [page, setPage] = useState(0);
+  const [selectedOrg, setSelectedOrg] = useState({})
+  const [addOrganization, setAddOrganization] = useState([])
+  const [editOrganization, setEditOrganization] = useState([])
+  const [deleteOrganization, setDeleteOrganization] = useState([])
   const [openAddOrganizationModal, setOpenAddOrganizationModal] = useState(false);
   const [openViewOrganizationModal, setOpenViewOrganizationModal] = useState(false);
   const [openEditOrganizationModal, setOpenEditOrganizationModal] = useState(false);
@@ -31,12 +35,12 @@ function ManageOrganization() {
 
   useEffect(() => {
     handleAllOrganizations();
-  }, [])
+  }, [addOrganization, editOrganization, deleteOrganization])
 
   const handleAllOrganizations = async () => {
     try {
       const result: AxiosResponse = await Service.getAllOrganizations()
-      const {data} = result
+      const { data } = result
       setAllOrganizations(data)
       setSearchedRows(data)
     } catch (error) {
@@ -44,8 +48,54 @@ function ManageOrganization() {
     }
   }
 
+  const handleAddOrganization = async (orgData: object) => {
+    try {
+      const result: AxiosResponse = await Service.addOrganization(orgData)
+      const { data } = result
+
+      if (!data.error) {
+        alert("Successfully created organization.")
+
+        setAddOrganization(data)
+        setOpenAddOrganizationModal(false);
+      } else {
+        alert(data.message)
+      }
+    } catch (error) {
+      alert("Error creating organization.")
+    }
+  }
+
+  const handleEditOrganization = async (id: string, orgData: object) => {
+    try {
+      const result: AxiosResponse = await Service.editOrganization(id, orgData)
+      const { data } = result
+      alert("Successfully edited organization.")
+
+      setEditOrganization(data)
+      setOpenEditOrganizationModal(false);
+      setSelectedOrg([])
+    } catch (error) {
+      alert("Error editing record.")
+    }
+  }
+
+  const handleDeleteOrganization = async (id: string) => {
+    try {
+      const result: AxiosResponse = await Service.deleteOrganization(id);
+      const { data } = result
+      alert("Successfully deleted organization.")
+
+      setOpenDeleteOrganizationModal(false);
+      setDeleteOrganization(data)
+      setSelectedOrg([])
+    } catch (error) {
+      alert("Error deleting record.")
+    }
+  }
+
   const searchRow = (event: any) => {
-    const {value} = event.target
+    const { value } = event.target
 
     if (!value || value === '') {
       setSearchedRows(allOrganizations)
@@ -95,7 +145,7 @@ function ManageOrganization() {
   }
 
   return (
-    <div style={{paddingLeft: '15px'}}>
+    <div style={{ paddingLeft: '15px' }}>
       <div style={{ textAlign: 'center', paddingBottom: '20px' }}>
         <span style={{ fontSize: '30px', fontWeight: 'bold' }}>Manage Organization</span>
       </div>
@@ -143,15 +193,15 @@ function ManageOrganization() {
                   searchedRows.slice(page * rows, page * rows + rows).map((row: any) => {
                     return (
                       <TableRow hover key={row.id}>
-                        <TableCell align="center">{row.name}</TableCell>
-                        <TableCell align="center">{row.type}</TableCell>
+                        <TableCell align="center">{row.org_name}</TableCell>
+                        <TableCell align="center">{row.org_type}</TableCell>
                         <TableCell align="center">{row.municipality}</TableCell>
                         <TableCell align='center'>
-                          <Button color='primary' variant='contained' className='table-btn' onClick={handleOpenEditOrganizationModal}>
+                          <Button color='primary' variant='contained' className='table-btn' onClick={() => { setSelectedOrg(row.id); handleOpenEditOrganizationModal(); }}>
                             <Edit style={{ color: 'white' }} />
                           </Button>
                           &emsp;
-                          <Button color='error' variant='contained' onClick={handleOpenDeleteOrganizationModal}>
+                          <Button color='error' variant='contained' onClick={() => { setSelectedOrg(row); handleOpenDeleteOrganizationModal(); }}>
                             <Delete style={{ color: 'white' }} />
                           </Button>
                         </TableCell>
@@ -175,6 +225,7 @@ function ManageOrganization() {
       <AddOrganization
         open={openAddOrganizationModal}
         handleClose={handleCloseAddOrganizationModal}
+        handleAddOrganization={handleAddOrganization}
       />
 
       <ViewOrganization
@@ -185,11 +236,15 @@ function ManageOrganization() {
       <EditOrganization
         open={openEditOrganizationModal}
         handleClose={handleCloseEditOrganizationModal}
+        selectedOrganization={selectedOrg}
+        handleEditOrganization={handleEditOrganization}
       />
 
       <DeleteOrganization
         open={openDeleteOrganizationModal}
         handleClose={handleCloseDeleteOrganizationModal}
+        selectedOrganization={selectedOrg}
+        handleDeleteOrganization={handleDeleteOrganization}
       />
     </div>
   );

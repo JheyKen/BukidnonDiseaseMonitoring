@@ -1,22 +1,183 @@
-export const Malaybalay = [
-  {
-    id: 1,
-    barangay_name: "Barangay 1",
-  },
-  {
-    id: 2,
-    barangay_name: "Barangay 2",
-  },
-  {
-    id: 3,
-    barangay_name: "Barangay 3",
-  },
-  {
-    id: 4,
-    barangay_name: "Barangay 4",
-  },
-  {
-    id: 5,
-    barangay_name: "Barangay 5",
-  }
-]
+export const Valencia = [{
+  "id": 0,
+  "barangay_name": "Bagontaas"
+}, {
+  "id": 1,
+  "barangay_name": "Banlag"
+}, {
+  "id": 2,
+  "barangay_name": "Barobo"
+}, {
+  "id": 3,
+  "barangay_name": "Batangan"
+}, {
+  "id": 4,
+  "barangay_name": "Catumbalon"
+}, {
+  "id": 5,
+  "barangay_name": "Colonia"
+}, {
+  "id": 6,
+  "barangay_name": "Concepcion"
+}, {
+  "id": 7,
+  "barangay_name": "Dagat-Kidavao"
+}, {
+  "id": 8,
+  "barangay_name": "Guinoyura"
+}, {
+  "id": 9,
+  "barangay_name": "Kahaponan"
+}, {
+  "id": 10,
+  "barangay_name": "Laligan"
+}, {
+  "id": 11,
+  "barangay_name": "Lilingayon"
+}, {
+  "id": 12,
+  "barangay_name": "Lourdes"
+}, {
+  "id": 13,
+  "barangay_name": "Lumbayao"
+}, {
+  "id": 14,
+  "barangay_name": "Lumbo"
+}, {
+  "id": 15,
+  "barangay_name": "Lurogan"
+}, {
+  "id": 16,
+  "barangay_name": "Maapag"
+}, {
+  "id": 17,
+  "barangay_name": "Mabuhay"
+}, {
+  "id": 18,
+  "barangay_name": "Mailag"
+}, {
+  "id": 19,
+  "barangay_name": "Mt.Nebo"
+}, {
+  "id": 20,
+  "barangay_name": "Nabag-o"
+}, {
+  "id": 21,
+  "barangay_name": "Pinatilan"
+}, {
+  "id": 22,
+  "barangay_name": "Poblacion"
+}, {
+  "id": 23,
+  "barangay_name": "San Carlos"
+}, {
+  "id": 24,
+  "barangay_name": "San Isidro"
+}, {
+  "id": 25,
+  "barangay_name": "Sinabuagan"
+}, {
+  "id": 26,
+  "barangay_name": "Sinayawan"
+}, {
+  "id": 27,
+  "barangay_name": "Sugod"
+}, {
+  "id": 28,
+  "barangay_name": "Tongantongan"
+}, {
+  "id": 29,
+  "barangay_name": "Tugaya"
+}, {
+  "id": 30,
+  "barangay_name": "Vintar"
+}]
+
+export const Talakag = [{
+  "id": 0,
+  "barangay_name": "Barangay 1"
+}, {
+  "id": 1,
+  "barangay_name": "Barangay 2"
+}, {
+  "id": 2,
+  "barangay_name": "Barangay 3"
+}, {
+  "id": 3,
+  "barangay_name": "Barangay 4"
+}, {
+  "id": 4,
+  "barangay_name": "Barangay 5"
+}, {
+  "id": 5,
+  "barangay_name": "Basak"
+}, {
+  "id": 6,
+  "barangay_name": "Baylanan"
+}, {
+  "id": 7,
+  "barangay_name": "Cacaon"
+}, {
+  "id": 8,
+  "barangay_name": "Colawingon"
+}, {
+  "id": 9,
+  "barangay_name": "Cosina"
+}, {
+  "id": 10,
+  "barangay_name": "Dagumbaan"
+}, {
+  "id": 11,
+  "barangay_name": "Dagundalahon"
+}, {
+  "id": 12,
+  "barangay_name": "Dominorog"
+}, {
+  "id": 13,
+  "barangay_name": "Indulang"
+}, {
+  "id": 14,
+  "barangay_name": "Lantud"
+}, {
+  "id": 15,
+  "barangay_name": "Lapok"
+}, {
+  "id": 16,
+  "barangay_name": "Liguron"
+}, {
+  "id": 17,
+  "barangay_name": "Lingi-on"
+}, {
+  "id": 18,
+  "barangay_name": "Lirongan"
+}, {
+  "id": 19,
+  "barangay_name": "Miarayon"
+}, {
+  "id": 20,
+  "barangay_name": "Sagaran"
+}, {
+  "id": 21,
+  "barangay_name": "Salucot"
+}, {
+  "id": 22,
+  "barangay_name": "San Antonio"
+}, {
+  "id": 23,
+  "barangay_name": "San Isidro"
+}, {
+  "id": 24,
+  "barangay_name": "San Miguel"
+}, {
+  "id": 25,
+  "barangay_name": "San Rafael"
+}, {
+  "id": 26,
+  "barangay_name": "Santo Niño"
+}, {
+  "id": 27,
+  "barangay_name": "Tagbak"
+}, {
+  "id": 28,
+  "barangay_name": "Tikalaan"
+}] 

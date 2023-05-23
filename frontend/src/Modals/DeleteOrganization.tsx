@@ -3,11 +3,13 @@ import { DialogContent, DialogActions, Button, TextField, TextareaAutosize } fro
 
 interface Props {
   open: boolean,
-  handleClose: () => void
+  handleClose: () => void,
+  selectedOrganization: any,
+  handleDeleteOrganization: (id: string) => void
 }
 
 function DeleteOrganization(props: Props) {
-  const { open, handleClose } = props;
+  const { open, handleClose, selectedOrganization, handleDeleteOrganization } = props;
 
   return (
     <BootstrapDialog
@@ -19,11 +21,11 @@ function DeleteOrganization(props: Props) {
 
       <DialogContent dividers>
         <div>
-          <label htmlFor="medicine-description">Are you sure you want to delete *name*?</label><br></br>
+          <label htmlFor="medicine-description">Are you sure you want to delete <b>{selectedOrganization.org_name}</b>?</label><br></br>
         </div>
       </DialogContent>
       <DialogActions>
-        <Button className="cancel-btn-modal" color='error' variant='contained' onClick={() => { }}>Delete</Button>
+        <Button className="cancel-btn-modal" color='error' variant='contained' onClick={() => { handleDeleteOrganization(selectedOrganization.id) }}>Delete</Button>
         &nbsp;
         <Button className="save-btn-modal" color="success" variant="contained" onClick={handleClose}>Cancel</Button>
       </DialogActions>
