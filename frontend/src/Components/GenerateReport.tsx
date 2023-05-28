@@ -1,27 +1,30 @@
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
 import '../App.css';
-import { Grid, Button, Paper, TextField, Select, MenuItem, InputLabel } from "@mui/material";
+import { Grid, Button, Paper, TextField, Select, MenuItem } from "@mui/material";
+import reportTemplate from "../Data/Report"
+import { AxiosResponse } from "axios";
+import Service from "../Service/Service";
 
 const paperStyle = { padding: '30px 20px 20px 20px', height: 300, width: 800, margin: "20px auto" }
 
-function GenerateReport() {
-  const [disease, setDisease] = useState("Dengue");
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
+interface Props {
+  handleDataForReport: (data: any) => void;
+  diseaseForReport: string,
+  dateFromForReport: string,
+  dateToForReport: string
+}
 
-  const handleDateFrom = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-    setDateFrom(value);
-  }
+function GenerateReport(props: Props) {
+  const { handleDataForReport, diseaseForReport, dateFromForReport, dateToForReport } = props
 
-  const handleDateTo = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-    setDateTo(value);
-  }
-
-  const handleChangeDisease = (event: any) => {
-    const { value } = event.target
-    setDisease(value)
+  const handleDownloadReport = async () => {
+    try {
+      const result: AxiosResponse = await Service.generatePDF();
+      const { data } = result
+      alert(data.message)
+    } catch (error) {
+      alert("Error generating PDF.");
+    }
   }
 
   return (
@@ -35,11 +38,12 @@ function GenerateReport() {
                   <td width={"150px"}>Choose Disease:</td>
                   <td>
                     <Select
-                      labelId="disease"
-                      id="disease"
-                      value={disease}
-                      label="Year"
-                      onChange={handleChangeDisease}
+                      labelId="diseaseForReport"
+                      id="diseaseForReport"
+                      name="diseaseForReport"
+                      value={diseaseForReport}
+                      label="Disease"
+                      onChange={handleDataForReport}
                       style={{ width: '330px' }}
                     >
                       <MenuItem key="1" value="Dengue">Dengue</MenuItem>
@@ -51,20 +55,21 @@ function GenerateReport() {
                 <tr>
                   <td>Date From:</td>
                   <td>
-                    <TextField className="date-field" name="dateFrom" type="date" value={dateFrom} onChange={(event: ChangeEvent<HTMLInputElement>) => handleDateFrom(event)} fullWidth required />
+                    <TextField className="date-field" name="dateFromForReport" type="date" value={dateFromForReport} onChange={handleDataForReport} fullWidth required />
                   </td>
                 </tr>
                 <tr>
                   <td>Date To:</td>
                   <td>
-                    <TextField className="date-field" name="dateTo" type="date" value={dateTo} onChange={(event: ChangeEvent<HTMLInputElement>) => handleDateTo(event)} fullWidth required />
+                    <TextField className="date-field" name="dateToForReport" type="date" value={dateToForReport} onChange={handleDataForReport} fullWidth required />
                   </td>
                 </tr>
               </table>
             </div>
             <div>
-              <Button variant="contained" className="upper-btn" style={{ marginRight: '50px' }} onClick={() => { }} fullWidth >Download Report</Button>
-              <Button variant="contained" className="upper-btn" onClick={() => { }} fullWidth >Print Report</Button>
+              <center>
+                <Button variant="contained" className="upper-btn" onClick={handleDownloadReport} fullWidth >Download Report</Button>
+              </center>
             </div>
           </form>
         </Paper>

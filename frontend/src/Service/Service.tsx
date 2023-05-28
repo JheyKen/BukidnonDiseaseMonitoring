@@ -21,6 +21,14 @@ const Service = {
       throw error
     }
   },
+  generatePDF: async () => {
+    try {
+      const data: AxiosResponse = await axios.post('/common/generatePDF');
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
   //accounts
   getAllVerifiedAccounts: async () => {
     try {

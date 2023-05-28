@@ -68,6 +68,22 @@ const commonController = {
         message: error.message
       })
     }
+  },
+  generatePDF: async (req: Request, res: Response) => {
+    try {
+
+      res.status(200).send({
+        error: 0,
+        data: '',
+        message: 'Success'
+      })
+    } catch (error: any) {
+      res.status(500).send({
+        error: 1,
+        data: 0,
+        message: error.message
+      })
+    }
   }
 }
 

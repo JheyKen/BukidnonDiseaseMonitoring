@@ -14,20 +14,27 @@ import {
   PrivateRoute
 } from './Components';
 import Service from './Service/Service';
+import Report from './Data/Report';
 
 interface Props { }
 interface State {
   login: boolean,
   username: string,
   password: string,
-  name: string
+  name: string,
+  diseaseForReport: string,
+  dateFromForReport: string,
+  dateToForReport: string
 }
 
 const initialState = {
   login: false,
   username: "",
   password: "",
-  name: ""
+  name: "",
+  diseaseForReport: "Dengue",
+  dateFromForReport: "",
+  dateToForReport: ""
 }
 
 export function localStorageValues(value: string) {
@@ -60,7 +67,8 @@ class App extends React.Component<Props, State> {
         this.setState({
           password: "",
           username,
-          name: `${first_name} ${middle_name} ${last_name}`
+          name: `${first_name} ${middle_name} ${last_name}`,
+          diseaseForReport: 'Dengue'
         })
       }
     } catch (error) {
@@ -99,7 +107,8 @@ class App extends React.Component<Props, State> {
             login: true,
             username: data.username,
             password: '',
-            name: `${data.first_name} ${data.middle_name} ${data.last_name}`
+            name: `${data.first_name} ${data.middle_name} ${data.last_name}`,
+            diseaseForReport: 'Dengue'
           })
         }
       }
@@ -112,6 +121,20 @@ class App extends React.Component<Props, State> {
   handleLogout = () => {
     localStorage.clear()
     this.setState({ ...initialState })
+  }
+
+  handleDataForReport = (data: any) => {
+    const { name, value } = data.target
+
+    if (name === 'diseaseForReport') {
+      localStorage.setItem('diseaseForReport', value)
+    } else if (name === 'dateFromForReport') {
+      localStorage.setItem('dateFromForReport', value)
+    } else {
+      localStorage.setItem('dateToForReport', value)
+    }
+
+    this.setState({ ...this.state, [name]: value })
   }
 
   render() {
@@ -150,6 +173,14 @@ class App extends React.Component<Props, State> {
                 }
               </Route>
 
+              <Route exact path='/report'>
+                <Report
+                  diseaseForReport={this.state.diseaseForReport}
+                  dateFromForReport={this.state.dateFromForReport}
+                  dateToForReport={this.state.dateToForReport}
+                />
+              </Route>
+
               <PrivateRoute exact path='/patient-record'>
                 <PatientRecord />
               </PrivateRoute>
@@ -170,7 +201,12 @@ class App extends React.Component<Props, State> {
                     </PrivateRoute>
 
                     <PrivateRoute exact path='/generate-report'>
-                      <GenerateReport />
+                      <GenerateReport
+                        handleDataForReport={this.handleDataForReport}
+                        diseaseForReport={this.state.diseaseForReport}
+                        dateFromForReport={this.state.dateFromForReport}
+                        dateToForReport={this.state.dateToForReport}
+                      />
                     </PrivateRoute>
 
                     <PrivateRoute exact path='/manage-account'>

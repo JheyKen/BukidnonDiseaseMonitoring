@@ -1,0 +1,81 @@
+.grid {
+  margin-left: 21.5%;
+  height: 100% !important;
+  padding: 20px 20px 20px 30px;
+}
+
+/* sidebar styles */    
+.fieldset-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* grid styles */
+.content {
+  text-align: center;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.subheading {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.description {
+  font-size: 16px;
+  color: black;
+}
+
+.heading1 {
+  display: flex;
+  align-items: center;
+  background-color: #232f3e;
+  box-shadow: 0px 1px 2px #232f3e;
+  padding: 10px;
+}
+
+.report-table th{
+  position: sticky; 
+  top: 0px;
+  background-color: #133b5c;
+  color: white;
+  text-align: center;
+  font-weight: normal;
+  font-size: 15px;
+  outline: 1px solid black;
+} 
+
+.report-table th, .report-table td {
+  padding: 9.5px;
+}
+
+.report-table td {
+  text-align: left;
+  font-size: 15px;
+  padding-left: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9fafb;
+}
+
+#ageChart {
+  display: block;
+  box-sizing: border-box;
+  height: 200px !important;
+  width: 200px !important;
+}
+
+#genderChart {
+  display: block;
+  box-sizing: border-box;
+  height: 200px !important;
+  width: 200px !important;
+}
