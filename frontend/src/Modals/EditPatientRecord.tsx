@@ -24,7 +24,9 @@ const initialData = {
   barangay: "",
   diagnosis: "",
   date_diagnosed: "",
-  facility: ""
+  facility: "",
+  positive: 2,
+  dead: 0
 }
 
 function EditPatientRecord(props: Props) {
@@ -101,15 +103,15 @@ function EditPatientRecord(props: Props) {
           <tr>
             <td style={{ width: '9pc' }}>Enter Last Name:</td>
             <td>
-              <TextField type="text" className="patient_inputs" placeholder="Last Name" name="last_name" value={data.last_name} onChange={handleInputs} />
+              <TextField type="text" className="patient_inputs" name="last_name" value={data.last_name} onChange={handleInputs} />
             </td>
             <td style={{ width: '12pc', paddingLeft: '10px' }}>Enter First Name:</td>
             <td>
-              <TextField type="text" className="patient_inputs" placeholder="First Name" name="first_name" value={data.first_name} onChange={handleInputs} />
+              <TextField type="text" className="patient_inputs" name="first_name" value={data.first_name} onChange={handleInputs} />
             </td>
             <td style={{ width: '12pc', paddingLeft: '10px' }}>Enter Middle Name:</td>
             <td>
-              <TextField type="text" className="patient_inputs" placeholder="Middle Name" name="middle_name" value={data.middle_name} onChange={handleInputs} />
+              <TextField type="text" className="patient_inputs" name="middle_name" value={data.middle_name} onChange={handleInputs} />
             </td>
           </tr>
           <tr>
@@ -231,6 +233,39 @@ function EditPatientRecord(props: Props) {
                     )
                   })
                 }
+              </Select>
+            </td>
+          </tr>
+          <tr>
+            <td style={{ paddingTop: '30px' }}>Is Patient Positive?</td>
+            <td style={{ paddingTop: '30px' }}>
+              <Select
+                labelId="positive"
+                className="patient_inputs"
+                id="positive"
+                name="positive"
+                value={data.positive}
+                label="Positive"
+                onChange={handleInputs}
+              >
+                <MenuItem value={0}>{"No"}</MenuItem>
+                <MenuItem value={1}>{"Yes"}</MenuItem>
+                <MenuItem value={2}>{"Unknown"}</MenuItem>
+              </Select>
+            </td>
+            <td style={{ paddingLeft: '10px', paddingTop: '30px' }}>Is Patient Dead?</td>
+            <td style={{ paddingTop: '30px' }}>
+              <Select
+                labelId="dead"
+                className="patient_inputs"
+                id="dead"
+                name="dead"
+                value={data.dead}
+                label="Dead"
+                onChange={handleInputs}
+              >
+                <MenuItem value={0}>{"No"}</MenuItem>
+                <MenuItem value={1}>{"Yes"}</MenuItem>
               </Select>
             </td>
           </tr>

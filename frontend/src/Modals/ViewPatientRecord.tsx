@@ -21,8 +21,9 @@ const initialData = {
   barangay: "",
   diagnosis: "",
   date_diagnosed: "",
-  dead: 0,
-  facility: ""
+  facility: "",
+  positive: 2,
+  dead: 0
 }
 
 function ViewPatientRecord(props: Props) {
@@ -55,7 +56,7 @@ function ViewPatientRecord(props: Props) {
           {`${data.first_name} ${data.middle_name} ${data.last_name}`}
           &emsp;&emsp;
           {!data.dead ? '' :
-            <span>Dead</span>
+            <span style={{ backgroundColor: "red", fontSize: '15px', color: 'white', padding: '5px 10px' }}>Dead</span>
           }
         </span>
       </BootstrapDialogTitle>
@@ -90,6 +91,12 @@ function ViewPatientRecord(props: Props) {
             <td style={{ paddingTop: '20px' }}>{`${new Date(data.date_diagnosed).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}`}</td>
             <td style={{ paddingLeft: '10px', fontWeight: 'bold', paddingTop: '20px' }}>Name of Facility:</td>
             <td style={{ paddingTop: '20px' }}>{data.facility}</td>
+          </tr>
+          <tr>
+            <td style={{ fontWeight: 'bold', paddingTop: '20px' }}>Patient Positive?</td>
+            <td style={{ paddingTop: '20px' }}>{data.positive === 1 ? "Yes" : data.positive === 2 ? "Unknown" : "No"}</td>
+            <td style={{ fontWeight: 'bold', paddingTop: '20px' }}>Patient Dead?</td>
+            <td style={{ paddingTop: '20px' }}>{data.dead ? "Yes" : "No"}</td>
           </tr>
         </table>
       </DialogContent>

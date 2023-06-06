@@ -14,7 +14,7 @@ import {
 import { Search, Visibility, PersonOff, Edit, Delete } from "@mui/icons-material"
 import "../App.css";
 import { useEffect, useState } from "react";
-import { AddPatientRecord, DeletePatientRecord, EditPatientRecord, PersonDead, ViewPatientRecord } from "../Modals";
+import { AddPatientRecord, DeletePatientRecord, EditPatientRecord, ViewPatientRecord } from "../Modals";
 import { AxiosResponse } from "axios";
 import Service from "../Service/Service";
 
@@ -187,9 +187,10 @@ function PatientRecord() {
                 <TableCell width={"5%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}></TableCell>
                 <TableCell width={"30%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Name</TableCell>
                 <TableCell width={"10%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Age</TableCell>
-                <TableCell width={"15%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Gender</TableCell>
                 <TableCell width={"15%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Diagnosis</TableCell>
-                <TableCell width={"25%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Actions</TableCell>
+                <TableCell width={"10%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Dead</TableCell>
+                <TableCell width={"10%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Positive</TableCell>
+                <TableCell width={"20%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -204,23 +205,15 @@ function PatientRecord() {
                       <TableRow hover key={row.id}>
                         <TableCell align='center'>
                           <Button className='table-btn' onClick={() => { setSelectedPatientData(row.id); handleOpenViewPatientModal() }}>
-                            <Visibility color='primary' />
+                            <Visibility color={row.dead ? 'error' : 'primary'} />
                           </Button>
                         </TableCell>
-                        <TableCell align="center">{`${row.first_name} ${row.middle_name} ${row.last_name}`}</TableCell>
-                        <TableCell align="center">{row.age}</TableCell>
-                        <TableCell align="center">{row.gender}</TableCell>
-                        <TableCell align="center">{row.diagnosis}</TableCell>
+                        <TableCell align="center" style={row.dead ? { color: 'red' } : { color: 'black' }}>{`${row.first_name} ${row.middle_name} ${row.last_name}`}</TableCell>
+                        <TableCell align="center" style={row.dead ? { color: 'red' } : { color: 'black' }}>{row.age}</TableCell>
+                        <TableCell align="center" style={row.dead ? { color: 'red' } : { color: 'black' }}>{row.diagnosis}</TableCell>
+                        <TableCell align="center" style={row.dead ? { color: 'red' } : { color: 'black' }}>{row.dead ? "Yes" : "No"}</TableCell>
+                        <TableCell align="center" style={row.dead ? { color: 'red' } : { color: 'black' }}>{row.positive === 1 ? "Yes" : row.positive === 2 ? "Unknown" : "No"}</TableCell>
                         <TableCell align='center'>
-                          {
-                            row.dead ? '' :
-                              <>
-                                <Button color='primary' variant='contained' className='table-btn' onClick={() => { setSelectedPatientData(row.id); handleOpenDeadPatientModal() }}>
-                                  <PersonOff style={{ color: 'white' }} />
-                                </Button>
-                                &emsp;
-                              </>
-                          }
                           <Button color='primary' variant='contained' className='table-btn' onClick={() => { setSelectedPatientData(row.id); handleOpenEditPatientModal() }}>
                             <Edit style={{ color: 'white' }} />
                           </Button>
@@ -255,13 +248,6 @@ function PatientRecord() {
       <ViewPatientRecord
         open={openViewPatientModal}
         handleClose={handleCloseViewPatientModal}
-        selectedPatientData={selectedPatientData}
-      />
-
-      <PersonDead
-        open={openDeadPatientModal}
-        handleClose={handleCloseDeadPatientModal}
-        handleEditPatient={handleEditPatient}
         selectedPatientData={selectedPatientData}
       />
 

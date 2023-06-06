@@ -77,6 +77,7 @@ const patientController = {
                 municipality: patientData.municipality,
                 barangay: patientData.barangay,
                 dead: 0,
+                positive: 2,
                 date_diagnosed: new Date(patientData.date_diagnosed).toISOString()
             }
 
@@ -128,6 +129,7 @@ const patientController = {
                         municipality: patientData.municipality,
                         barangay: patientData.barangay,
                         dead: patientData.dead,
+                        positive: patientData.positive,
                         date_diagnosed: new Date(patientData.date_diagnosed).toISOString()
                     }
 

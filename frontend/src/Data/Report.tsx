@@ -6,13 +6,7 @@ import { AxiosResponse } from "axios";
 import Service from "../Service/Service";
 import { Municipality } from "./municipality";
 import { useEffect, useState } from "react";
-
-const genderData = [
-  { name: "Below 14", value: 2 },
-  { name: "15 - 47", value: 3 },
-  { name: "48 - 63", value: 1 },
-  { name: "Above 64", value: 4 }
-]
+import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 
 interface Props {
   diseaseForReport: string,
@@ -21,18 +15,26 @@ interface Props {
 }
 
 function Report(props: Props) {
-  const { diseaseForReport, dateFromForReport, dateToForReport } = props
+  // const { diseaseForReport, dateFromForReport, dateToForReport } = props
+  const diseaseForReport = "Dengue"
+  const dateFromForReport = "2023-01-01"
+  const dateToForReport = "2023-10-15"
 
-  // const yearFrom = new Date(dateFromForReport).getFullYear()
-  // const yearTo = new Date(dateToForReport).getFullYear()
-
-  const yearFrom = '2022'
-  const yearTo = '2023'
+  const yearFrom = new Date(dateFromForReport).getFullYear() - 1;
+  const yearTo = new Date(dateToForReport).getFullYear();
 
   const [cases, setCases] = useState([])
+  const [overallCaseCount, setOverallCaseCount] = useState(0)
+  const [caseCountCurrentDate, setCaseCountCurrentDate] = useState(0)
+  const [genderData, setGenderData] = useState([])
+  const [ageData, setAgeData] = useState([])
 
   useEffect(() => {
     handleGetNewCases();
+    handleOverallCaseCount();
+    handleCaseCountCurrentDate();
+    handleGenderData();
+    handleAgeData();
   }, [])
 
   const handleGetNewCases = async () => {
@@ -46,21 +48,65 @@ function Report(props: Props) {
         const new_date_from = new Date(Number(yearTo), 0, 1).valueOf();
         const new_date_to = new Date(Number(yearTo), 11, 31).valueOf();
 
-        const oldCaseResult: AxiosResponse = await Service.getVictimsCountPerMunicipality("dengue", municipalityData.name, old_date_from, old_date_to);
+        const oldCaseResult: AxiosResponse = await Service.getVictimsCountPerMunicipality(diseaseForReport.toLowerCase(), municipalityData.name, old_date_from, old_date_to);
         const { data: newData } = oldCaseResult
 
-        const newCaseResult: AxiosResponse = await Service.getVictimsCountPerMunicipality("dengue", municipalityData.name, new_date_from, new_date_to);
+        const newCaseResult: AxiosResponse = await Service.getVictimsCountPerMunicipality(diseaseForReport.toLowerCase(), municipalityData.name, new_date_from, new_date_to);
         const { data: oldData } = newCaseResult
-        returnData.push({ city: municipalityData.name, new: newData, old: oldData })
+
+        const percentageChange = ((Number(oldData) - Number(newData)) / Number(oldData)) * 100
+        const percentage = isNaN(percentageChange) ? 0 : percentageChange.toFixed(2)
+
+        const status = newData > oldData ? "up" : newData === oldData ? "equal" : "down"
+        returnData.push({ city: municipalityData.name, new: newData, old: oldData, percent: percentage, status })
         x++;
       }
       //@ts-ignore
       setCases(returnData)
     } catch (error) {
-      alert("fjsdk")
+      alert("Error fetching data for Table 1.")
     }
   }
 
+  const handleOverallCaseCount = async () => {
+    try {
+      const result: AxiosResponse = await Service.getOverallCaseCount(diseaseForReport.toLowerCase())
+      const { data } = result
+      setOverallCaseCount(Number(data))
+    } catch (error) {
+      alert("Error fetching record.")
+    }
+  }
+
+  const handleCaseCountCurrentDate = async () => {
+    try {
+      const result: AxiosResponse = await Service.getCaseCountCustomDate(diseaseForReport.toLowerCase(), new Date(dateFromForReport).valueOf(), new Date(dateToForReport).valueOf())
+      const { data } = result
+      setCaseCountCurrentDate(Number(data))
+    } catch (error) {
+      alert("Error fetching record.")
+    }
+  }
+
+  const handleGenderData = async () => {
+    try {
+      const result: AxiosResponse = await Service.getAllGenderCountPerCase(diseaseForReport.toLowerCase())
+      const { data } = result
+      setGenderData(data)
+    } catch (error) {
+      alert("Error fetching record.")
+    }
+  }
+
+  const handleAgeData = async () => {
+    try {
+      const result: AxiosResponse = await Service.getAllAgePerCase(diseaseForReport.toLowerCase())
+      const { data } = result
+      setAgeData(data)
+    } catch (error) {
+      alert("Error fetching record.")
+    }
+  }
 
   return (
     <div>
@@ -81,17 +127,19 @@ function Report(props: Props) {
 
           <fieldset style={{ width: '200px', padding: '20px', border: '1px solid #ccc', borderRadius: '5px', backgroundColor: '#f1f1f1', marginLeft: '1.5pc' }}>
             <legend style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>Morbidity Schedule</legend>
-            {new Date(dateFromForReport).toLocaleDateString()} - {new Date(dateToForReport).toLocaleDateString()}
+            <center>
+              {new Date(dateFromForReport).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} - {new Date(dateToForReport).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+            </center>
           </fieldset>
 
           <fieldset style={{ width: '200px', padding: '20px', borderRadius: '5px', backgroundColor: '#f1f1f1', marginLeft: '1.5pc', border: "none" }}>
             <p style={{ fontWeight: "bold", textAlign: "center", color: "#333" }}>No. of Reported {diseaseForReport} Cases for the Current Date</p>
-            <h1 style={{ textAlign: "center", color: "#ff5f5f", fontSize: "48px", marginTop: "50px" }}>168</h1>
+            <h1 style={{ textAlign: "center", color: "#ff5f5f", fontSize: "48px", marginTop: "50px" }}>{caseCountCurrentDate}</h1>
           </fieldset>
 
           <fieldset style={{ width: '200px', padding: '20px', borderRadius: '5px', backgroundColor: '#f1f1f1', marginLeft: '1.5pc', border: "none" }}>
             <p style={{ fontWeight: "bold", textAlign: "center", color: "#333" }}>Total No. of Reported {diseaseForReport} Cases</p>
-            <h1 style={{ textAlign: "center", color: "#47a447", fontSize: "48px", marginTop: "50px" }}>9,230</h1>
+            <h1 style={{ textAlign: "center", color: "#47a447", fontSize: "48px", marginTop: "50px" }}>{overallCaseCount}</h1>
           </fieldset>
 
           <fieldset style={{ width: '200px', padding: '20px', borderRadius: '5px', backgroundColor: '#f1f1f1', marginLeft: '1.5pc', border: "none" }}>
@@ -103,7 +151,7 @@ function Report(props: Props) {
               labelFontColor="black"
               radius="75%"
               center={['50%', '50%']}
-              data={genderData}
+              data={ageData}
             />
           </fieldset>
 
@@ -123,7 +171,7 @@ function Report(props: Props) {
           <fieldset style={{ width: '200px', padding: '20px', borderRadius: '5px', backgroundColor: '#f1f1f1', marginLeft: '1.5pc', border: "none" }}>
             <legend style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>DISCLAIMER</legend>
             <p>
-              Case counts reported here DO NOT represent the final number and are subject to change after inclusions of delayed reports and review cases.
+              Case counts reported here <b>DO NOT</b> represent the final number and are subject to change after inclusions of delayed reports and review cases.
               All data reflects partial data only of all DRUs in the province.
             </p>
             <p>
@@ -154,10 +202,10 @@ function Report(props: Props) {
 
           <table border={1} className="report-table" style={{ width: '100%', minWidth: 'max-content', borderCollapse: 'separate', borderSpacing: '0px', overflow: 'hidden' }}>
             <thead>
-              <th>Municipality</th>
-              <th>{yearTo} Cases</th>
-              <th>{yearFrom} Cases</th>
-              <th>Percentage Change</th>
+              <th style={{ width: '20pc' }}>Municipality</th>
+              <th style={{ width: '12pc' }}>{yearTo} Cases</th>
+              <th style={{ width: '12pc' }}>{yearFrom} Cases</th>
+              <th style={{ width: '10pc' }}>Percentage Change</th>
             </thead>
             <tbody>
               {
@@ -167,9 +215,17 @@ function Report(props: Props) {
                       <td>{row.city}</td>
                       <td>{row.old}</td>
                       <td>{row.new}</td>
-                      <td>
+                      <td style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span style={{ paddingTop: '4px' }}>{row.percent}%</span>
+
                         {
-                          ((Number(row.old) - Number(row.new)) / Number(row.old)) * 100
+                          row.status === "up" ?
+                            <span><ArrowUpward /></span>
+                            :
+                            row.status === "equal" ?
+                              <span style={{ fontWeight: 'bold', fontSize: '20px' }}>=</span>
+                              :
+                              <span><ArrowDownward /></span>
                         }
                       </td>
                     </tr>

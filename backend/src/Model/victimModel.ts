@@ -1,6 +1,33 @@
 import db from "../../db";
 
 const victimModel = {
+  getOverallCaseCount: async (diagnosis: string) => {
+    return await db.table(diagnosis).count();
+  },
+  //all cases
+  getAllGenderCountPerCase: async (diagnosis: string, gender: string) => {
+    return await db.table(diagnosis).filter({ gender }).count();
+  },
+  getAllPediaVictims: async (diagnosis: string) => {
+    return await db.table(diagnosis).filter(db.row('age').le(14)).count();
+  },
+  getAllYoungVictim: async (diagnosis: string) => {
+    return await db.table(diagnosis).filter(db.row('age').ge(15).and(db.row('age').le(47))).count();
+  },
+  getAllMiddleVictim: async (diagnosis: string) => {
+    return await db.table(diagnosis).filter(db.row('age').ge(48).and(db.row('age').le(63))).count();
+  },
+  getAllElderlyVictim: async (diagnosis: string) => {
+    return await db.table(diagnosis).filter(db.row('age').ge(64)).count();
+  },
+  //specific dates
+  getCaseCountCustomDate: async (diagnosis: string, date_from: any, date_to: any) => {
+    return await db.table(diagnosis).filter(
+      db.row('date_diagnosed').gt(db.ISO8601(date_from))
+    ).filter(
+      db.row('date_diagnosed').lt(db.ISO8601(date_to))
+    ).count();
+  },
   getVictimsCountPerMunicipality: async (diagnosis: string, municipality: string, date_from: any, date_to: any) => {
     return await db.table(diagnosis).filter(
       db.row('date_diagnosed').gt(db.ISO8601(date_from))

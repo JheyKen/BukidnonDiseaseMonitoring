@@ -129,6 +129,22 @@ const Service = {
     }
   },
   //victims
+  getOverallCaseCount: async (diagnosis: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/overallCaseCount/${diagnosis}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  getCaseCountCustomDate: async (diagnosis: string, date_from: any, date_to: any) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/caseCountCustomDate/${diagnosis}/${date_from}/${date_to}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
   getVictimsCountPerMunicipality: async (diagnosis: string, municipality: string, date_from: any, date_to: any) => {
     try {
       const data: AxiosResponse = await axios.get(`/victim/victimsCountPerMunicipality/${diagnosis}/${municipality}/${date_from}/${date_to}`)
@@ -164,6 +180,22 @@ const Service = {
   getVictimsPerDiagnosisPerMonth: async (diagnosis: string, year: number, month: number) => {
     try {
       const data: AxiosResponse = await axios.get(`/victim/victimsPerDiagnosisPerMonth/${diagnosis}/${year}/${month}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  getAllGenderCountPerCase: async (diagnosis: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/genderCountAll/${diagnosis}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  getAllAgePerCase: async (diagnosis: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/ageCountAll/${diagnosis}`)
       return data.data
     } catch (error) {
       throw error

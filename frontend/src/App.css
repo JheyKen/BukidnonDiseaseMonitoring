@@ -152,14 +152,14 @@
 
 #add_patient .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
   max-width: 1300px;
-  max-height: 400px;
+  max-height: 500px;
   width: 1300px;
-  height: 400px;
+  height: 500px;
 }
 
 #view_patient .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
   max-width: 900px;
-  max-height: 400px;
+  max-height: 420px;
   width: 900px;
-  height: 400px;
+  height: 420px;
 }
