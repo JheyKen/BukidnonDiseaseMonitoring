@@ -22,7 +22,7 @@ function DeleteAccount(props: Props) {
 
       <DialogContent dividers>
         <div>
-          <label htmlFor="medicine-description">Are you sure you want to delete <b>{`${first_name} ${last_name}`}</b>?</label><br></br>
+          <label htmlFor="medicine-description">Are you sure you want to delete <b>{`${first_name} ${last_name}`}</b>?</label>
         </div>
       </DialogContent>
       <DialogActions>

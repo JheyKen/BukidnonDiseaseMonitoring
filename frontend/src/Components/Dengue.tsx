@@ -23,10 +23,10 @@ function Dengue() {
   const rows: number = 5;
   const dateToday = `${new Date().toLocaleDateString('fr-CA')}`
 
-  const [victimsCount, setVictimsCount] = useState([])
-  const [victimsGender, setVictimsGender] = useState([])
-  const [victimsAge, setVictimsAge] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [victimsCount, setVictimsCount] = useState([]);
+  const [victimsGender, setVictimsGender] = useState([]);
+  const [victimsAge, setVictimsAge] = useState([]);
+  const [loadingTable, setLoadingTable] = useState(true);
   const [page, setPage] = useState(0);
   const [dateFrom, setDateFrom] = useState(dateToday);
   const [dateTo, setDateTo] = useState(dateToday);
@@ -39,6 +39,7 @@ function Dengue() {
 
   const handleVictimsCount = async () => {
     try {
+      setLoadingTable(true)
       let x = 0;
       const returnData = []
       while (x < Municipality.length) {
@@ -46,15 +47,20 @@ function Dengue() {
         const date_from = new Date(dateFrom).valueOf();
         const date_to = new Date(dateTo).valueOf();
 
-        const result: AxiosResponse = await Service.getVictimsCountPerMunicipality("dengue", municipalityData.name, date_from, date_to);
-        const { data } = result
-        returnData.push({ city: municipalityData.name, count: data })
+        const caseResult: AxiosResponse = await Service.getVictimsCountPerMunicipality("dengue", municipalityData.name, date_from, date_to);
+        const { data: cases } = caseResult
+
+        const deathResult: AxiosResponse = await Service.getDeathCountPerMunicipality("dengue", municipalityData.name, date_from, date_to);
+        const { data: deaths } = deathResult
+
+        returnData.push({ city: municipalityData.name, caseCount: cases, deathCount: deaths })
         x++;
       }
 
+      const output = returnData.sort((prev: any, curr: any) => curr.caseCount - prev.caseCount)
       //@ts-ignore
-      setVictimsCount(returnData)
-      setLoading(false)
+      setVictimsCount(output)
+      setLoadingTable(false)
     } catch (error) {
       alert("Error fetching record.")
     }
@@ -154,20 +160,22 @@ function Dengue() {
                     <TableRow style={{ backgroundColor: '#115293' }}>
                       <TableCell width={"75%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>City</TableCell>
                       <TableCell width={"25%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Cases</TableCell>
+                      <TableCell width={"25%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Deaths</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {
-                      loading ?
+                      loadingTable ?
                         <TableRow hover>
-                          <TableCell colSpan={2}>Loading Data...</TableCell>
+                          <TableCell colSpan={3}>Loading Data...</TableCell>
                         </TableRow>
                         :
                         victimsCount.slice(page * rows, page * rows + rows).map((row: any) => {
                           return (
                             <TableRow hover>
                               <TableCell>{row.city}</TableCell>
-                              <TableCell>{row.count}</TableCell>
+                              <TableCell>{row.caseCount}</TableCell>
+                              <TableCell>{row.deathCount}</TableCell>
                             </TableRow>
                           )
                         })
@@ -193,26 +201,36 @@ function Dengue() {
               <div style={{ width: '50%' }}>
                 <span style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '20px' }}>Gender</span>
                 <br></br>
-                <PieChart
-                  colors={['#378AFF', '#F54F52']}
-                  legendPosition="inside"
-                  labelFontColor="black"
-                  radius="75%"
-                  center={['50%', '50%']}
-                  data={victimsGender}
-                />
+                {
+                  loadingTable ?
+                    <span>Loading Chart...</span>
+                    :
+                    <PieChart
+                      colors={['#378AFF', '#F54F52']}
+                      legendPosition="inside"
+                      labelFontColor="black"
+                      radius="75%"
+                      center={['50%', '50%']}
+                      data={victimsGender}
+                    />
+                }
               </div>
               <div style={{ width: '50%' }}>
                 <span style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '20px' }}>Age</span>
                 <br></br>
-                <PieChart
-                  colors={['#378AFF', '#F54F52', '#FFA32F', '#93F03B']}
-                  legendPosition="inside"
-                  labelFontColor="black"
-                  radius="75%"
-                  center={['50%', '50%']}
-                  data={victimsAge}
-                />
+                {
+                  loadingTable ?
+                    <span>Loading Chart...</span>
+                    :
+                    <PieChart
+                      colors={['#378AFF', '#F54F52', '#FFA32F', '#93F03B']}
+                      legendPosition="inside"
+                      labelFontColor="black"
+                      radius="75%"
+                      center={['50%', '50%']}
+                      data={victimsAge}
+                    />
+                }
               </div>
             </Grid>
           </Paper>

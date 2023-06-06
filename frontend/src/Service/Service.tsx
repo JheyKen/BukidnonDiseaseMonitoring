@@ -137,6 +137,14 @@ const Service = {
       throw error
     }
   },
+  getDeathCountPerMunicipality: async (diagnosis: string, municipality: string, date_from: any, date_to: any) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/deathCounts/${diagnosis}/${municipality}/${date_from}/${date_to}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
   getVictimsCountPerGender: async (diagnosis: string, date_from: any, date_to: any) => {
     try {
       const data: AxiosResponse = await axios.get(`/victim/gender/${diagnosis}/${date_from}/${date_to}`)

@@ -22,7 +22,8 @@ const initialData = {
   municipality: "",
   barangay: "",
   diagnosis: "",
-  date_diagnosed: ""
+  date_diagnosed: "",
+  facility: ""
 }
 
 function AddPatientRecord(props: Props) {
@@ -30,6 +31,11 @@ function AddPatientRecord(props: Props) {
 
   const [data, setData] = useState(initialData)
   const [barangay, setBarangay] = useState([])
+  const [facility, setFacility] = useState([])
+
+  useEffect(() => {
+    handleFacility();
+  }, [])
 
   useEffect(() => {
     handleBarangay();
@@ -56,6 +62,17 @@ function AddPatientRecord(props: Props) {
       }
     } catch (error) {
       alert("Error fetching barangay.")
+    }
+  }
+
+  const handleFacility = async () => {
+    try {
+      const result: AxiosResponse = await Service.getAllOrganizations()
+      const { data } = result
+
+      setFacility(data)
+    } catch (error) {
+      alert("Error fetching facility.")
     }
   }
 
@@ -184,6 +201,26 @@ function AddPatientRecord(props: Props) {
             <td style={{ paddingLeft: '10px' }}>Enter Date Diagnosed:</td>
             <td>
               <TextField type="date" className="patient_inputs" placeholder="Date Diagnosed" name="date_diagnosed" value={data.date_diagnosed} onChange={handleInputs} />
+            </td>
+            <td style={{ paddingLeft: '10px' }}>Enter Name of Facility:</td>
+            <td>
+              <Select
+                labelId="facility"
+                className="patient_inputs"
+                id="facility"
+                name="facility"
+                value={data.facility}
+                label="Facility"
+                onChange={handleInputs}
+              >
+                {
+                  facility.map((row: any) => {
+                    return (
+                      <MenuItem key={row.id} value={row.org_name}>{row.org_name}</MenuItem>
+                    )
+                  })
+                }
+              </Select>
             </td>
           </tr>
         </table>

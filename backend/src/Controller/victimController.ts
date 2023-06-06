@@ -24,6 +24,28 @@ const victimController = {
       })
     }
   },
+  getDeathCountPerMunicipality: async (req: Request, res: Response) => {
+    try {
+      const { diagnosis, municipality, date_from, date_to } = req.params
+
+      const dateFrom = new Date(Number(date_from)).toISOString();
+      const dateTo = new Date(Number(date_to)).toISOString();
+
+      const data: any = await victimModel.getDeathCountPerMunicipality(diagnosis, municipality, dateFrom, dateTo);
+
+      res.status(200).send({
+        error: 0,
+        data: data,
+        message: 'Success'
+      })
+    } catch (error: any) {
+      res.status(400).send({
+        error: 1,
+        data: null,
+        message: error.message
+      })
+    }
+  },
   getVictimsGenderCount: async (req: Request, res: Response) => {
     try {
       const { diagnosis, date_from, date_to } = req.params

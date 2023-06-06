@@ -11,10 +11,10 @@ import {
   TableBody,
   TablePagination
 } from "@mui/material";
-import { Search, Visibility, Edit, Delete } from "@mui/icons-material"
+import { Search, Edit, Delete } from "@mui/icons-material"
 import "../App.css";
 import { useEffect, useState } from "react";
-import { DeleteAccount, EditAccount, VerifyAccount, ViewAccount } from "../Modals";
+import { DeleteAccount, EditAccount, VerifyAccount } from "../Modals";
 import { AxiosResponse } from "axios";
 import Service from "../Service/Service";
 import { localStorageValues } from "../App";
@@ -30,7 +30,6 @@ function ManageAccount() {
   const [searchedRows, setSearchedRows] = useState([])
   const [page, setPage] = useState(0);
   const [openVerifyAccountModal, setOpenVerifyAccountModal] = useState(false)
-  const [openViewAccountModal, setOpenViewAccountModal] = useState(false)
   const [openEditAccountModal, setOpenEditAccountModal] = useState(false)
   const [openDeleteAccountModal, setOpenDeleteAccountModal] = useState(false)
 
@@ -116,14 +115,6 @@ function ManageAccount() {
     setOpenVerifyAccountModal(false);
   }
 
-  const handleOpenViewAccountModal = () => {
-    setOpenViewAccountModal(true);
-  }
-
-  const handleCloseViewAccountModal = () => {
-    setOpenViewAccountModal(false);
-  }
-
   const handleOpenEditAccountModal = () => {
     setOpenEditAccountModal(true);
   }
@@ -175,8 +166,7 @@ function ManageAccount() {
           <Table>
             <TableHead>
               <TableRow style={{ backgroundColor: '#115293' }}>
-                <TableCell width={"5%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}></TableCell>
-                <TableCell width={"25%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Name</TableCell>
+                <TableCell width={"30%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Name</TableCell>
                 <TableCell width={"20%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Position</TableCell>
                 <TableCell width={"20%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Organization</TableCell>
                 <TableCell width={"20%"} align="center" style={{ color: 'white', fontWeight: 'bold' }}>Actions</TableCell>
@@ -192,11 +182,6 @@ function ManageAccount() {
                   searchedRows.slice(page * rows, page * rows + rows).map((row: any) => {
                     return (
                       <TableRow hover key={row.id}>
-                        <TableCell align='center'>
-                          <Button className='table-btn' onClick={handleOpenViewAccountModal}>
-                            <Visibility color='primary' />
-                          </Button>
-                        </TableCell>
                         <TableCell align="center">{`${row.first_name} ${row.middle_name} ${row.last_name}`}</TableCell>
                         <TableCell align="center">{row.position}</TableCell>
                         <TableCell align="center">{row.org_name}</TableCell>
@@ -236,11 +221,6 @@ function ManageAccount() {
         handleClose={handleCloseVerifyAccountModal}
         allPendingAccounts={allPendingAccounts}
         handleEditAccount={handleEditAccount}
-      />
-
-      <ViewAccount
-        open={openViewAccountModal}
-        handleClose={handleCloseViewAccountModal}
       />
 
       <EditAccount

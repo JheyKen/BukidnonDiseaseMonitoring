@@ -8,6 +8,13 @@ const victimModel = {
       db.row('date_diagnosed').lt(db.ISO8601(date_to))
     ).filter({ municipality }).count();
   },
+  getDeathCountPerMunicipality: async (diagnosis: string, municipality: string, date_from: any, date_to: any) => {
+    return await db.table(diagnosis).filter(
+      db.row('date_diagnosed').gt(db.ISO8601(date_from))
+    ).filter(
+      db.row('date_diagnosed').lt(db.ISO8601(date_to))
+    ).filter({ municipality, dead: 1 }).count();
+  },
   getVictimsGenderCount: async (diagnosis: string, gender: string, date_from: any, date_to: any) => {
     return await db.table(diagnosis).filter(
       db.row('date_diagnosed').gt(db.ISO8601(date_from))

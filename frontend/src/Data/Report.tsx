@@ -2,6 +2,10 @@ import "./ReportStyles.css";
 import { PieChart } from 'amazing-react-charts'
 import DOHLogo from "../Images/doh-logo.png"
 import DOHCHONM from "../Images/doh-chonm.png"
+import { AxiosResponse } from "axios";
+import Service from "../Service/Service";
+import { Municipality } from "./municipality";
+import { useEffect, useState } from "react";
 
 const genderData = [
   { name: "Below 14", value: 2 },
@@ -18,6 +22,45 @@ interface Props {
 
 function Report(props: Props) {
   const { diseaseForReport, dateFromForReport, dateToForReport } = props
+
+  // const yearFrom = new Date(dateFromForReport).getFullYear()
+  // const yearTo = new Date(dateToForReport).getFullYear()
+
+  const yearFrom = '2022'
+  const yearTo = '2023'
+
+  const [cases, setCases] = useState([])
+
+  useEffect(() => {
+    handleGetNewCases();
+  }, [])
+
+  const handleGetNewCases = async () => {
+    try {
+      let x = 0;
+      const returnData = []
+      while (x < Municipality.length) {
+        let municipalityData = Municipality[x]
+        const old_date_from = new Date(Number(yearFrom), 0, 1).valueOf();
+        const old_date_to = new Date(Number(yearFrom), 11, 31).valueOf();
+        const new_date_from = new Date(Number(yearTo), 0, 1).valueOf();
+        const new_date_to = new Date(Number(yearTo), 11, 31).valueOf();
+
+        const oldCaseResult: AxiosResponse = await Service.getVictimsCountPerMunicipality("dengue", municipalityData.name, old_date_from, old_date_to);
+        const { data: newData } = oldCaseResult
+
+        const newCaseResult: AxiosResponse = await Service.getVictimsCountPerMunicipality("dengue", municipalityData.name, new_date_from, new_date_to);
+        const { data: oldData } = newCaseResult
+        returnData.push({ city: municipalityData.name, new: newData, old: oldData })
+        x++;
+      }
+      //@ts-ignore
+      setCases(returnData)
+    } catch (error) {
+      alert("fjsdk")
+    }
+  }
+
 
   return (
     <div>
@@ -94,8 +137,12 @@ function Report(props: Props) {
         <div style={{ textAlign: 'center' }}>
           <span className="subheading">Department of Health</span><br></br>
           <span className="subheading">Center for Health Development Northern Mindanao Regional</span><br></br>
-          <span className="subheading">Epidemiology, Surveillance & Disaster Response Unit</span>
-          <p className="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit tortor ac dolor eleifend aliquam. Aenean pellentesque velit vitae augue tempor hendrerit.</p>
+          <span className="subheading">Epidemiology, Surveillance & Disaster Response Unit</span><br></br>
+          <span className="subheading">Provincial Health Office - Bukidnon</span><br></br>
+          <p className="description">
+            Vicente Neri Street, Malaybalay City, Bukidnon <br></br>
+            Contact Number: +639123456789 | Email Address: sample@gmail.com<br></br>
+          </p>
         </div>
 
         <div className="heading1">
@@ -103,154 +150,32 @@ function Report(props: Props) {
         </div>
 
         <div>
-          <p style={{ fontWeight: "bold" }}>Table 1: Distribution of {diseaseForReport} Cases by Municipality 2022 vs 2023</p>
+          <p style={{ fontWeight: "bold" }}>Table 1: Distribution of {diseaseForReport} Cases by Municipality {yearFrom} vs {yearTo}</p>
 
           <table border={1} className="report-table" style={{ width: '100%', minWidth: 'max-content', borderCollapse: 'separate', borderSpacing: '0px', overflow: 'hidden' }}>
             <thead>
               <th>Municipality</th>
-              <th>2022 Cases</th>
-              <th>2023 Cases</th>
+              <th>{yearTo} Cases</th>
+              <th>{yearFrom} Cases</th>
               <th>Percentage Change</th>
             </thead>
             <tbody>
-              <tr>
-                <td>Baungon</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Cabanglasan</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Damulog</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Dangcagan</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Don Carlos</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Impasug-Ong</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Kadingilan</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Kalilangan</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Kibawe</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Kitaotao</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Lantapan</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Libona</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Libona</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Malaybalay</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Malitbog</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Manolo Fortich</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Maramag</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Pangantucan</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Quezon</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>San Fernando</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Sumilao</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Talakag</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Valencia</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+              {
+                cases.map((row: any) => {
+                  return (
+                    <tr>
+                      <td>{row.city}</td>
+                      <td>{row.old}</td>
+                      <td>{row.new}</td>
+                      <td>
+                        {
+                          ((Number(row.old) - Number(row.new)) / Number(row.old)) * 100
+                        }
+                      </td>
+                    </tr>
+                  )
+                })
+              }
             </tbody>
           </table>
         </div>

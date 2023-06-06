@@ -156,3 +156,10 @@
   width: 1300px;
   height: 400px;
 }
+
+#view_patient .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  max-width: 900px;
+  max-height: 400px;
+  width: 900px;
+  height: 400px;
+}
