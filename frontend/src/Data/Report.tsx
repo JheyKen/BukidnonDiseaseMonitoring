@@ -23,21 +23,23 @@ function Report(props: Props) {
   const yearFrom = new Date(dateFromForReport).getFullYear() - 1;
   const yearTo = new Date(dateToForReport).getFullYear();
 
-  const [cases, setCases] = useState([])
+  const [tableOneData, setTableOneData] = useState([])
+  const [tableTwoData, setTableTwoData] = useState([])
   const [overallCaseCount, setOverallCaseCount] = useState(0)
   const [caseCountCurrentDate, setCaseCountCurrentDate] = useState(0)
   const [genderData, setGenderData] = useState([])
   const [ageData, setAgeData] = useState([])
 
   useEffect(() => {
-    handleGetNewCases();
     handleOverallCaseCount();
+    handleGetTableOneData();
+    handlGetTableTwoData();
     handleCaseCountCurrentDate();
     handleGenderData();
     handleAgeData();
   }, [])
 
-  const handleGetNewCases = async () => {
+  const handleGetTableOneData = async () => {
     try {
       let x = 0;
       const returnData = []
@@ -62,9 +64,45 @@ function Report(props: Props) {
         x++;
       }
       //@ts-ignore
-      setCases(returnData)
+      setTableOneData(returnData)
     } catch (error) {
       alert("Error fetching data for Table 1.")
+    }
+  }
+
+  const handlGetTableTwoData = async () => {
+    try {
+      let x = 0;
+      const returnData = []
+      while (x < Municipality.length) {
+        let municipalityData = Municipality[x]
+
+        const caseCountResult: AxiosResponse = await Service.getAllVictimsCountPerMunicipality(diseaseForReport.toLowerCase(), municipalityData.name);
+        const { data: caseCount } = caseCountResult
+
+        const overAllCount = await handleOverallCaseCount();
+        const percent = (Number(caseCount) / overAllCount!) * 100;
+        const caseRate = isNaN(percent) ? 0 : percent.toFixed(2)
+
+        const deathCountResult: AxiosResponse = await Service.getAllDeathCountPerMunicipality(diseaseForReport.toLowerCase(), municipalityData.name);
+        const { data: deathCount } = deathCountResult
+
+        const fitality = (Number(deathCount) / Number(caseCount)) * 100;
+        const fitalityRateCheck = isNaN(fitality) ? 0 : fitality.toFixed(2)
+
+        const positiveCountResult: AxiosResponse = await Service.getAllPositiveCountPerMunicipality(diseaseForReport.toLowerCase(), municipalityData.name);
+        const { data: positiveCount } = positiveCountResult
+
+        const positivityRate = (Number(positiveCount) / Number(caseCount)) * 100;
+        const positivityRateCheck = isNaN(positivityRate) ? 0 : positivityRate.toFixed(2)
+
+        returnData.push({ city: municipalityData.name, cases: caseCount, percentageRate: caseRate, death: deathCount, fitalityRate: fitalityRateCheck, positive: positiveCount, positiveRate: positivityRateCheck })
+        x++;
+      }
+      //@ts-ignore
+      setTableTwoData(returnData)
+    } catch (error) {
+      alert("Error fetching data for Table 2.")
     }
   }
 
@@ -73,6 +111,7 @@ function Report(props: Props) {
       const result: AxiosResponse = await Service.getOverallCaseCount(diseaseForReport.toLowerCase())
       const { data } = result
       setOverallCaseCount(Number(data))
+      return Number(data)
     } catch (error) {
       alert("Error fetching record.")
     }
@@ -209,7 +248,7 @@ function Report(props: Props) {
             </thead>
             <tbody>
               {
-                cases.map((row: any) => {
+                tableOneData.map((row: any) => {
                   return (
                     <tr>
                       <td>{row.city}</td>
@@ -217,7 +256,6 @@ function Report(props: Props) {
                       <td>{row.new}</td>
                       <td style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <span style={{ paddingTop: '4px' }}>{row.percent}%</span>
-
                         {
                           row.status === "up" ?
                             <span><ArrowUpward /></span>
@@ -251,226 +289,22 @@ function Report(props: Props) {
               <th>Positivity Rate</th>
             </thead>
             <tbody>
-              <tr>
-                <td>Baungon</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Cabanglasan</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Damulog</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Dangcagan</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Don Carlos</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Impasug-Ong</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Kadingilan</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Kalilangan</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Kibawe</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Kitaotao</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Lantapan</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Libona</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Malaybalay</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Malitbog</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Manolo Fortich</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Maramag</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Pangantucan</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Quezon</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>San Fernando</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Sumilao</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Talakag</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Valencia</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+              {
+                tableTwoData.map((row: any) => {
+                  return (
+                    <tr>
+                      <td>{row.city}</td>
+                      <td>{row.cases}</td>
+                      <td>{row.percentageRate}%</td>
+                      <td>{row.death}</td>
+                      <td>{row.fitalityRate}%</td>
+                      <td></td>
+                      <td>{row.positive}</td>
+                      <td>{row.positiveRate}%</td>
+                    </tr>
+                  )
+                })
+              }
             </tbody>
           </table>
         </div>

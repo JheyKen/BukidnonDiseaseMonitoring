@@ -2,8 +2,9 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import '../App.css';
 import { Grid, Button, Paper, TextField } from "@mui/material";
 import CreateAccount from '../Modals/CreateAccount';
+import { useHistory } from "react-router-dom";
 
-const paperStyle = { padding: '10px 20px 20px 20px', height: 330, width: 280, margin: "20px auto" }
+const paperStyle = { padding: '10px 20px 20px 20px', height: 380, width: 300, margin: "10px auto" }
 const marginStyle = { margin: '8px 0' }
 const btnStyle = { margin: '30px 0', backgroundColor: '#115293', color: 'white' }
 
@@ -12,10 +13,12 @@ interface Props {
   password: string,
   handleLogin: () => void,
   handleLoginInputs: (e: ChangeEvent<HTMLInputElement>) => void
+  handlePublicView: () => void
 }
 
 function Login(props: Props) {
-  const { username, password, handleLogin, handleLoginInputs } = props
+  const { username, password, handleLogin, handleLoginInputs, handlePublicView } = props
+  let history = useHistory();
 
   const [openCreateAccountModal, setOpenCreateAccountModal] = useState(false)
 
@@ -42,6 +45,11 @@ function Login(props: Props) {
           <div>
             <Button onClick={handleOpenCreateAccountModal}>
               Create Account
+            </Button>
+          </div>
+          <div>
+            <Button color='error' onClick={handlePublicView}>
+              View Public Portal
             </Button>
           </div>
         </Paper>

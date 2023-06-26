@@ -43,6 +43,119 @@ const victimController = {
       })
     }
   },
+  //all cases
+  getAllGenderCountPerCase: async (req: Request, res: Response) => {
+    try {
+      const { diagnosis } = req.params
+
+      const male: any = await victimModel.getAllGenderCountPerCase(diagnosis, "Male");
+      const female: any = await victimModel.getAllGenderCountPerCase(diagnosis, "Female");
+
+      const data = [
+        { name: "Male", value: male },
+        { name: "Female", value: female }
+      ]
+
+      res.status(200).send({
+        error: 0,
+        data: data,
+        message: 'Success'
+      })
+    } catch (error: any) {
+      res.status(400).send({
+        error: 1,
+        data: null,
+        message: error.message
+      })
+    }
+  },
+  getAllAgePerCase: async (req: Request, res: Response) => {
+    try {
+      const { diagnosis } = req.params
+
+      const pedia: any = await victimModel.getAllPediaVictims(diagnosis)
+      const young: any = await victimModel.getAllYoungVictim(diagnosis)
+      const middle: any = await victimModel.getAllMiddleVictim(diagnosis)
+      const elderly: any = await victimModel.getAllElderlyVictim(diagnosis)
+
+      const data = [
+        { name: "Below 14", value: pedia },
+        { name: "15 - 47", value: young },
+        { name: "48 - 63", value: middle },
+        { name: "Above 64", value: elderly },
+      ]
+
+      res.status(200).send({
+        error: 0,
+        data: data,
+        message: 'Success'
+      })
+    } catch (error: any) {
+      res.status(400).send({
+        error: 1,
+        data: null,
+        message: error.message
+      })
+    }
+  },
+  getAllVictimsCountPerMunicipality: async (req: Request, res: Response) => {
+    try {
+      const { diagnosis, municipality } = req.params
+
+      const data: any = await victimModel.getAllVictimsCountPerMunicipality(diagnosis, municipality);
+
+      res.status(200).send({
+        error: 0,
+        data: data,
+        message: 'Success'
+      })
+    } catch (error: any) {
+      res.status(400).send({
+        error: 1,
+        data: null,
+        message: error.message
+      })
+    }
+  },
+  getAllDeathCountPerMunicipality: async (req: Request, res: Response) => {
+    try {
+      const { diagnosis, municipality } = req.params
+
+      const data: any = await victimModel.getAllDeathCountPerMunicipality(diagnosis, municipality);
+
+      res.status(200).send({
+        error: 0,
+        data: data,
+        message: 'Success'
+      })
+    } catch (error: any) {
+      res.status(400).send({
+        error: 1,
+        data: null,
+        message: error.message
+      })
+    }
+  },
+  getAllPositiveCountPerMunicipality: async (req: Request, res: Response) => {
+    try {
+      const { diagnosis, municipality } = req.params
+
+      const data: any = await victimModel.getAllPositiveCountPerMunicipality(diagnosis, municipality);
+
+      res.status(200).send({
+        error: 0,
+        data: data,
+        message: 'Success'
+      })
+    } catch (error: any) {
+      res.status(400).send({
+        error: 1,
+        data: null,
+        message: error.message
+      })
+    }
+  },
+  //specific dates
   getVictimsCountPerMunicipality: async (req: Request, res: Response) => {
     try {
       const { diagnosis, municipality, date_from, date_to } = req.params
@@ -166,60 +279,7 @@ const victimController = {
       })
     }
   },
-  getAllGenderCountPerCase: async (req: Request, res: Response) => {
-    try {
-      const { diagnosis } = req.params
 
-      const male: any = await victimModel.getAllGenderCountPerCase(diagnosis, "Male");
-      const female: any = await victimModel.getAllGenderCountPerCase(diagnosis, "Female");
-
-      const data = [
-        { name: "Male", value: male },
-        { name: "Female", value: female }
-      ]
-
-      res.status(200).send({
-        error: 0,
-        data: data,
-        message: 'Success'
-      })
-    } catch (error: any) {
-      res.status(400).send({
-        error: 1,
-        data: null,
-        message: error.message
-      })
-    }
-  },
-  getAllAgePerCase: async (req: Request, res: Response) => {
-    try {
-      const { diagnosis } = req.params
-
-      const pedia: any = await victimModel.getAllPediaVictims(diagnosis)
-      const young: any = await victimModel.getAllYoungVictim(diagnosis)
-      const middle: any = await victimModel.getAllMiddleVictim(diagnosis)
-      const elderly: any = await victimModel.getAllElderlyVictim(diagnosis)
-
-      const data = [
-        { name: "Below 14", value: pedia },
-        { name: "15 - 47", value: young },
-        { name: "48 - 63", value: middle },
-        { name: "Above 64", value: elderly },
-      ]
-
-      res.status(200).send({
-        error: 0,
-        data: data,
-        message: 'Success'
-      })
-    } catch (error: any) {
-      res.status(400).send({
-        error: 1,
-        data: null,
-        message: error.message
-      })
-    }
-  }
 }
 
 export default victimController

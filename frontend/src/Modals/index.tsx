@@ -7,7 +7,6 @@ import CreateAccount from "./CreateAccount";
 
 import EditPatientRecord from "./EditPatientRecord";
 import EditAccount from "./EditAccount";
-import PersonDead from "./PersonDead";
 import EditOrganization from "./EditOrganization";
 
 import DeletePatientRecord from "./DeletePatientRecord";
@@ -25,7 +24,6 @@ export {
   CreateAccount,
   EditPatientRecord,
   EditAccount,
-  PersonDead,
   EditOrganization,
   DeletePatientRecord,
   DeleteAccount,

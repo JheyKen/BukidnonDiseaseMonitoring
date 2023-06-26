@@ -145,6 +145,48 @@ const Service = {
       throw error
     }
   },
+  //all cases
+  getAllGenderCountPerCase: async (diagnosis: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/genderCountAll/${diagnosis}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  getAllAgePerCase: async (diagnosis: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/ageCountAll/${diagnosis}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  getAllVictimsCountPerMunicipality: async (diagnosis: string, municipality: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/victimsCountAllPerMunicipality/${diagnosis}/${municipality}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  getAllDeathCountPerMunicipality: async (diagnosis: string, municipality: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/deathCountAllPerMunicipality/${diagnosis}/${municipality}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  getAllPositiveCountPerMunicipality: async (diagnosis: string, municipality: string) => {
+    try {
+      const data: AxiosResponse = await axios.get(`/victim/positiveCountAllPerMunicipality/${diagnosis}/${municipality}`)
+      return data.data
+    } catch (error) {
+      throw error
+    }
+  },
+  //specific dates
   getVictimsCountPerMunicipality: async (diagnosis: string, municipality: string, date_from: any, date_to: any) => {
     try {
       const data: AxiosResponse = await axios.get(`/victim/victimsCountPerMunicipality/${diagnosis}/${municipality}/${date_from}/${date_to}`)
@@ -180,22 +222,6 @@ const Service = {
   getVictimsPerDiagnosisPerMonth: async (diagnosis: string, year: number, month: number) => {
     try {
       const data: AxiosResponse = await axios.get(`/victim/victimsPerDiagnosisPerMonth/${diagnosis}/${year}/${month}`)
-      return data.data
-    } catch (error) {
-      throw error
-    }
-  },
-  getAllGenderCountPerCase: async (diagnosis: string) => {
-    try {
-      const data: AxiosResponse = await axios.get(`/victim/genderCountAll/${diagnosis}`)
-      return data.data
-    } catch (error) {
-      throw error
-    }
-  },
-  getAllAgePerCase: async (diagnosis: string) => {
-    try {
-      const data: AxiosResponse = await axios.get(`/victim/ageCountAll/${diagnosis}`)
       return data.data
     } catch (error) {
       throw error

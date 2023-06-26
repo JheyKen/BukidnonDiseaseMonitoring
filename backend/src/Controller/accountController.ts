@@ -105,7 +105,7 @@ const accountController = {
           username: createData.username,
           password: hashedPassword,
           status: "pending",
-          isAdmin: 0
+          isAdmin: createData.position === 'PHO Employee' ? 2 : 0
         }
 
         const data: any = await accountModel.createAccount(account)
@@ -138,7 +138,11 @@ const accountController = {
           message: "Account not found."
         })
       } else {
-        const data: any = await accountModel.editAccount(username, editParam)
+        const editData = {
+          ...editParam,
+          isAdmin: editParam.position === 'PHO Employee' ? 2 : 0
+        }
+        const data: any = await accountModel.editAccount(username, editData)
 
         res.status(200).send({
           error: 0,

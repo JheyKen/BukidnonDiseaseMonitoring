@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import './App.css';
 import { Header, Login, Sidebar } from './Pages';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import {
   Dashboard,
   Dengue,
@@ -22,6 +22,7 @@ interface State {
   username: string,
   password: string,
   name: string,
+  view: string,
   diseaseForReport: string,
   dateFromForReport: string,
   dateToForReport: string
@@ -32,6 +33,7 @@ const initialState = {
   username: "",
   password: "",
   name: "",
+  view: "login",
   diseaseForReport: "Dengue",
   dateFromForReport: "",
   dateToForReport: ""
@@ -68,6 +70,7 @@ class App extends React.Component<Props, State> {
           password: "",
           username,
           name: `${first_name} ${middle_name} ${last_name}`,
+          view: 'registered',
           diseaseForReport: 'Dengue'
         })
       }
@@ -108,6 +111,7 @@ class App extends React.Component<Props, State> {
             username: data.username,
             password: '',
             name: `${data.first_name} ${data.middle_name} ${data.last_name}`,
+            view: "registered",
             diseaseForReport: 'Dengue'
           })
         }
@@ -120,6 +124,7 @@ class App extends React.Component<Props, State> {
 
   handleLogout = () => {
     localStorage.clear()
+    window.location.reload();
     this.setState({ ...initialState })
   }
 
@@ -137,6 +142,10 @@ class App extends React.Component<Props, State> {
     this.setState({ ...this.state, [name]: value })
   }
 
+  handlePublicView = () => {
+    this.setState({ ...this.state, view: 'public' })
+  }
+
   render() {
     return (
       <div className="App">
@@ -150,26 +159,31 @@ class App extends React.Component<Props, State> {
 
         <Router>
           {
-            !this.state.login ? "" :
+            this.state.view === 'login' ? "" :
               <div id='Sidebar'>
-                <Sidebar />
+                <Sidebar
+                  handleLogout={this.handleLogout}
+                  view={this.state.view}
+                />
               </div>
           }
 
           <Switch>
-            <div id={this.state.login ? 'Grid-with-sidebar' : 'Grid'}>
-
+            <div id={this.state.login || this.state.view === 'public' ? 'Grid-with-sidebar' : 'Grid'}>
               <Route exact path='/'>
                 {
-                  this.state.login ?
-                    <Dashboard />
+                  this.state.view === 'login' ?
+                    <div id="Grid">
+                      <Login
+                        username={this.state.username}
+                        password={this.state.password}
+                        handleLogin={this.handleLogin}
+                        handleLoginInputs={this.handleLoginInputs}
+                        handlePublicView={this.handlePublicView}
+                      />
+                    </div>
                     :
-                    <Login
-                      username={this.state.username}
-                      password={this.state.password}
-                      handleLogin={this.handleLogin}
-                      handleLoginInputs={this.handleLoginInputs}
-                    />
+                    <Dashboard />
                 }
               </Route>
 
@@ -186,29 +200,38 @@ class App extends React.Component<Props, State> {
               </PrivateRoute>
 
               {
+                this.state.view === 'login' ? ''
+                  :
+                  <>
+                    <Route exact path='/dengue'>
+                      <Dengue />
+                    </Route>
+
+                    <Route exact path='/influenza'>
+                      <Influenza />
+                    </Route>
+
+                    <Route exact path='/typhoid'>
+                      <Typhoid />
+                    </Route>
+                  </>
+              }
+
+              {
+                Number(localStorageValues('isAdmin')) === 0 ? "" :
+                  <PrivateRoute exact path='/generate-report'>
+                    <GenerateReport
+                      handleDataForReport={this.handleDataForReport}
+                      diseaseForReport={this.state.diseaseForReport}
+                      dateFromForReport={this.state.dateFromForReport}
+                      dateToForReport={this.state.dateToForReport}
+                    />
+                  </PrivateRoute>
+              }
+
+              {
                 Number(localStorageValues('isAdmin')) === 1 ?
                   <>
-                    <PrivateRoute exact path='/dengue'>
-                      <Dengue />
-                    </PrivateRoute>
-
-                    <PrivateRoute exact path='/influenza'>
-                      <Influenza />
-                    </PrivateRoute>
-
-                    <PrivateRoute exact path='/typhoid'>
-                      <Typhoid />
-                    </PrivateRoute>
-
-                    <PrivateRoute exact path='/generate-report'>
-                      <GenerateReport
-                        handleDataForReport={this.handleDataForReport}
-                        diseaseForReport={this.state.diseaseForReport}
-                        dateFromForReport={this.state.dateFromForReport}
-                        dateToForReport={this.state.dateToForReport}
-                      />
-                    </PrivateRoute>
-
                     <PrivateRoute exact path='/manage-account'>
                       <ManageAccount />
                     </PrivateRoute>
@@ -220,6 +243,7 @@ class App extends React.Component<Props, State> {
                   : ""
               }
 
+              <Redirect to='/' />
             </div>
           </Switch>
 

@@ -20,6 +20,15 @@ const victimModel = {
   getAllElderlyVictim: async (diagnosis: string) => {
     return await db.table(diagnosis).filter(db.row('age').ge(64)).count();
   },
+  getAllVictimsCountPerMunicipality: async (diagnosis: string, municipality: string) => {
+    return await db.table(diagnosis).filter({ municipality }).count();
+  },
+  getAllDeathCountPerMunicipality: async (diagnosis: string, municipality: string) => {
+    return await db.table(diagnosis).filter({ municipality, death: 1 }).count();
+  },
+  getAllPositiveCountPerMunicipality: async (diagnosis: string, municipality: string) => {
+    return await db.table(diagnosis).filter({ municipality, positive: 1 }).count();
+  },
   //specific dates
   getCaseCountCustomDate: async (diagnosis: string, date_from: any, date_to: any) => {
     return await db.table(diagnosis).filter(

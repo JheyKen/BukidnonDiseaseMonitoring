@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import commonModel from "../Model/commonModel"
 import bcrypt from 'bcrypt'
+import fs from 'fs'
+var pdf = require("pdf-creator-node");
 
 const commonController = {
   login: async (req: Request, res: Response) => {
@@ -71,7 +73,24 @@ const commonController = {
   },
   generatePDF: async (req: Request, res: Response) => {
     try {
+      const templatePath = "D:/Ken/Capstone/System/BukidnonDiseaseMonitoring/frontend/src/Data/Report.tsx"
+      const html = fs.readFileSync(templatePath, "utf8")
 
+      const document = {
+        html: html,
+        data: {},
+        path: `./${new Date()}_Report.pdf`,
+        type: "",
+      };
+
+      const options = {
+        format: "Legal",
+        orientation: "portrait",
+        border: "10mm",
+      };
+
+      const generated = await pdf.create(document, options)
+      console.log("🚀 ~ generated:", generated)
       res.status(200).send({
         error: 0,
         data: '',

@@ -74,7 +74,20 @@ function EditAccount(props: Props) {
           <tr>
             <td>Position:</td>
             <td>
-              <TextField className="edit_inputs" placeholder="Enter Position" name="position" value={editData.position} onChange={handleInputs} />
+              <Select
+                labelId="position"
+                id="position"
+                name="position"
+                className="edit_inputs"
+                value={editData.position}
+                label="Position"
+                onChange={handleInputs}
+              >
+                <MenuItem value={"Health Worker"}>{"Health Worker"}</MenuItem>
+                <MenuItem value={"CHO Employee"}>{"CHO Employee"}</MenuItem>
+                <MenuItem value={"MHO Employee"}>{"MHO Employee"}</MenuItem>
+                <MenuItem value={"PHO Employee"}>{"PHO Employee"}</MenuItem>
+              </Select>
             </td>
           </tr>
           <tr>
