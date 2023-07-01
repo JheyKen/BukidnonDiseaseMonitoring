@@ -431,3 +431,33 @@
 2023-06-26T13:28:31.210429600 2.903057s info: Table d5587a29-613e-488e-8735-7b1e813ccaaf: This server is Raft leader for term 8. Latest log index is 24.
 2023-06-26T13:28:31.293107300 2.978616s info: Table e40d8ac8-b3d7-4986-89f9-d0a01c321cb9: This server is Raft leader for term 8. Latest log index is 23.
 2023-06-26T13:28:32.203911400 3.896262s warn: Problem when checking for new versions of RethinkDB: HTTP request to update.rethinkdb.com failed.
+2023-06-27T08:42:08.393658500 0.245731s notice: Running rethinkdb 2.3.6-windows (MSC 190024215)...
+2023-06-27T08:42:08.409321300 0.261730s notice: Running on 6.2.9200 (Windows 8, Server 2012)
+2023-06-27T08:42:08.409321301 0.261836s notice: Loading data from directory D:\\Ken\\Capstone\\System\\BukidnonDiseaseMonitoring\\rethinkdb_data
+2023-06-27T08:42:08.928506000 0.793350s info: Automatically using cache size of 100 MB
+2023-06-27T08:42:08.928506001 0.793365s warn: Cache size does not leave much memory for server and query overhead (available memory: 232 MB).
+2023-06-27T08:42:08.928506002 0.793402s warn: Cache size is very low and may impact performance.
+2023-06-27T08:42:09.023206400 0.886715s notice: Listening for intracluster connections on port 29015
+2023-06-27T08:42:10.373982900 2.231344s notice: Listening for client driver connections on port 28015
+2023-06-27T08:42:10.373982901 2.233264s notice: Listening for administrative HTTP connections on port 8080
+2023-06-27T08:42:10.373982902 2.233269s notice: Listening on cluster address: 127.0.0.1
+2023-06-27T08:42:10.373982903 2.233271s notice: Listening on driver address: 127.0.0.1
+2023-06-27T08:42:10.373982904 2.233274s notice: Listening on http address: 127.0.0.1
+2023-06-27T08:42:10.373982905 2.233276s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2023-06-27T08:42:10.373982906 2.233278s notice: Server ready, "LAPTOP_U4HPU2L2_o4x" b0d6e7d1-3319-4e48-ac0d-b7301ad299da
+2023-06-27T08:42:10.452121600 2.305098s info: Table 1984999b-4276-4b94-83fa-92ae16e791ce: Starting a new Raft election for term 9.
+2023-06-27T08:42:10.468148700 2.319929s info: Table 24421bb9-987a-4cbf-9c2d-4c943560be7d: Starting a new Raft election for term 16.
+2023-06-27T08:42:10.562865500 2.424800s info: Table 1984999b-4276-4b94-83fa-92ae16e791ce: This server is Raft leader for term 9. Latest log index is 24.
+2023-06-27T08:42:10.562865501 2.425210s info: Table 24421bb9-987a-4cbf-9c2d-4c943560be7d: This server is Raft leader for term 16. Latest log index is 50.
+2023-06-27T08:42:10.940351600 2.791837s info: Table 867e40f3-2e9e-4bce-8ac4-fbc70e2e95db: Starting a new Raft election for term 16.
+2023-06-27T08:42:11.019450300 2.874885s info: Table 867e40f3-2e9e-4bce-8ac4-fbc70e2e95db: This server is Raft leader for term 16. Latest log index is 49.
+2023-06-27T08:42:11.302797700 3.163500s info: Table d5587a29-613e-488e-8735-7b1e813ccaaf: Starting a new Raft election for term 9.
+2023-06-27T08:42:11.428456600 3.279961s info: Table e1697b56-5c35-4f97-97a0-06ef4df9ccd7: Starting a new Raft election for term 6.
+2023-06-27T08:42:11.428456601 3.294880s info: Table d5587a29-613e-488e-8735-7b1e813ccaaf: This server is Raft leader for term 9. Latest log index is 28.
+2023-06-27T08:42:11.570490200 3.422751s info: Table e40d8ac8-b3d7-4986-89f9-d0a01c321cb9: Starting a new Raft election for term 9.
+2023-06-27T08:42:11.570490201 3.423244s info: Table e1697b56-5c35-4f97-97a0-06ef4df9ccd7: This server is Raft leader for term 6. Latest log index is 14.
+2023-06-27T08:42:11.680847000 3.533678s info: Table ff9394e3-6119-4530-8ede-9b8e9d0e5a04: Starting a new Raft election for term 16.
+2023-06-27T08:42:11.774621600 3.633205s info: Table e40d8ac8-b3d7-4986-89f9-d0a01c321cb9: This server is Raft leader for term 9. Latest log index is 26.
+2023-06-27T08:42:11.805887600 3.658755s info: Table ff9394e3-6119-4530-8ede-9b8e9d0e5a04: This server is Raft leader for term 16. Latest log index is 49.
+2023-06-27T08:42:13.351955800 5.212891s warn: Problem when checking for new versions of RethinkDB: HTTP request to update.rethinkdb.com failed.
+2023-06-28T12:53:48.460091200 101499.673404s warn: Problem when checking for new versions of RethinkDB: HTTP request to update.rethinkdb.com failed.

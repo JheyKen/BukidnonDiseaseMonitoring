@@ -15,6 +15,7 @@ import {
 } from './Components';
 import Service from './Service/Service';
 import Report from './Data/Report';
+import { AxiosResponse } from "axios";
 
 interface Props { }
 interface State {
@@ -71,9 +72,13 @@ class App extends React.Component<Props, State> {
           username,
           name: `${first_name} ${middle_name} ${last_name}`,
           view: 'registered',
-          diseaseForReport: 'Dengue'
+          diseaseForReport: localStorageValues('diseaseForReport'),
+          dateFromForReport: localStorageValues('dateFromForReport'),
+          dateToForReport: localStorageValues('dateToForReport')
         })
       }
+
+
     } catch (error) {
       throw error
     }
@@ -146,20 +151,36 @@ class App extends React.Component<Props, State> {
     this.setState({ ...this.state, view: 'public' })
   }
 
+  handleDownloadReport = async () => {
+    try {
+      const result: AxiosResponse = await Service.generatePDF();
+      const { data } = result
+      alert(data.message)
+      // const printWindow = window.open("/report")
+      // printWindow!.print();
+    } catch (error) {
+      alert("Error generating PDF.");
+    }
+  }
+
   render() {
     return (
       <div className="App">
-        <div id='Header'>
-          <Header
-            login={this.state.login}
-            handleLogout={this.handleLogout}
-            name={this.state.name}
-          />
-        </div>
+        {
+          window.location.pathname !== "/report" &&
+          <div id='Header'>
+            <Header
+              login={this.state.login}
+              handleLogout={this.handleLogout}
+              name={this.state.name}
+            />
+          </div>
+        }
 
         <Router>
           {
             this.state.view === 'login' ? "" :
+              window.location.pathname !== "/report" &&
               <div id='Sidebar'>
                 <Sidebar
                   handleLogout={this.handleLogout}
@@ -169,6 +190,9 @@ class App extends React.Component<Props, State> {
           }
 
           <Switch>
+            <Route exact path='/report'>
+              <Report />
+            </Route>
             <div id={this.state.login || this.state.view === 'public' ? 'Grid-with-sidebar' : 'Grid'}>
               <Route exact path='/'>
                 {
@@ -185,14 +209,6 @@ class App extends React.Component<Props, State> {
                     :
                     <Dashboard />
                 }
-              </Route>
-
-              <Route exact path='/report'>
-                <Report
-                  diseaseForReport={this.state.diseaseForReport}
-                  dateFromForReport={this.state.dateFromForReport}
-                  dateToForReport={this.state.dateToForReport}
-                />
               </Route>
 
               <PrivateRoute exact path='/patient-record'>
@@ -225,6 +241,7 @@ class App extends React.Component<Props, State> {
                       diseaseForReport={this.state.diseaseForReport}
                       dateFromForReport={this.state.dateFromForReport}
                       dateToForReport={this.state.dateToForReport}
+                      handleDownloadReport={this.handleDownloadReport}
                     />
                   </PrivateRoute>
               }
@@ -242,8 +259,6 @@ class App extends React.Component<Props, State> {
                   </>
                   : ""
               }
-
-              <Redirect to='/' />
             </div>
           </Switch>
 

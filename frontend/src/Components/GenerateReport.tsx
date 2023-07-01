@@ -8,24 +8,15 @@ import Service from "../Service/Service";
 const paperStyle = { padding: '30px 20px 20px 20px', height: 300, width: 800, margin: "20px auto" }
 
 interface Props {
-  handleDataForReport: (data: any) => void;
+  handleDataForReport: (data: any) => void,
   diseaseForReport: string,
   dateFromForReport: string,
-  dateToForReport: string
+  dateToForReport: string,
+  handleDownloadReport: () => void
 }
 
 function GenerateReport(props: Props) {
-  const { handleDataForReport, diseaseForReport, dateFromForReport, dateToForReport } = props
-
-  const handleDownloadReport = async () => {
-    try {
-      const result: AxiosResponse = await Service.generatePDF();
-      const { data } = result
-      alert(data.message)
-    } catch (error) {
-      alert("Error generating PDF.");
-    }
-  }
+  const { handleDataForReport, diseaseForReport, dateFromForReport, dateToForReport, handleDownloadReport } = props
 
   return (
     <div className="box">
