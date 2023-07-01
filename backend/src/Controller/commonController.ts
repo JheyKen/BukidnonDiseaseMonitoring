@@ -1,8 +1,6 @@
 import { Request, Response } from 'express'
 import commonModel from "../Model/commonModel"
 import bcrypt from 'bcrypt'
-import fs from 'fs'
-var pdf = require('html-pdf')
 
 const commonController = {
   login: async (req: Request, res: Response) => {
@@ -73,18 +71,7 @@ const commonController = {
   },
   generatePDF: async (req: Request, res: Response) => {
     try {
-      const templatePath = "D:/Ken/Capstone/System/BukidnonDiseaseMonitoring/frontend/src/Data/Report.tsx"
 
-      var html = fs.readFileSync(templatePath, 'utf8');
-      var options = { format: 'A4' };
-
-      const generatePDF = await pdf.create(html, options).toFile('businesscard.pdf');
-
-      res.status(200).send({
-        error: 0,
-        data: generatePDF,
-        message: 'Success'
-      })
     } catch (error: any) {
       res.status(500).send({
         error: 1,
