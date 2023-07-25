@@ -14,7 +14,6 @@ import DeleteAccount from "./DeleteAccount";
 import DeleteOrganization from "./DeleteOrganization";
 
 import ViewPatientRecord from "./ViewPatientRecord";
-import ViewOrganization from "./ViewOrganization";
 
 export {
   ChangePassword,
@@ -28,6 +27,5 @@ export {
   DeletePatientRecord,
   DeleteAccount,
   DeleteOrganization,
-  ViewPatientRecord,
-  ViewOrganization
+  ViewPatientRecord
 }

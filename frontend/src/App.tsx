@@ -3,7 +3,7 @@ import './App.css';
 //@ts-ignore
 import FileSaver from 'file-saver';
 import { Header, Login, Sidebar } from './Pages';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import {
   Dashboard,
   Dengue,
@@ -18,7 +18,6 @@ import {
 import Service from './Service/Service';
 import Report from './Data/Report';
 import { PulseLoader } from 'react-spinners'
-import { AxiosResponse } from "axios";
 
 interface Props { }
 interface State {

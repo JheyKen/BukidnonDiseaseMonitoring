@@ -30,7 +30,7 @@ function CreateAccount(props: Props) {
 
     const handleCreateAccount = async () => {
         try {
-            const result: AxiosResponse = await Service.createAccount(data)
+            await Service.createAccount(data)
             alert("Successfully created account.")
             handleResetData();
             handleClose();

@@ -2,7 +2,6 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import '../App.css';
 import { Grid, Button, Paper, TextField } from "@mui/material";
 import CreateAccount from '../Modals/CreateAccount';
-import { useHistory } from "react-router-dom";
 
 const paperStyle = { padding: '10px 20px 20px 20px', height: 380, width: 300, margin: "10px auto" }
 const marginStyle = { margin: '8px 0' }
@@ -18,7 +17,6 @@ interface Props {
 
 function Login(props: Props) {
   const { username, password, handleLogin, handleLoginInputs, handlePublicView } = props
-  let history = useHistory();
 
   const [openCreateAccountModal, setOpenCreateAccountModal] = useState(false)
 

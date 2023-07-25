@@ -11,10 +11,10 @@ import {
   TableBody,
   TablePagination
 } from "@mui/material";
-import { Search, Visibility, Edit, Delete } from "@mui/icons-material"
+import { Search, Edit, Delete } from "@mui/icons-material"
 import "../App.css";
 import { useEffect, useState } from "react";
-import { AddOrganization, DeleteOrganization, EditOrganization, ViewOrganization } from "../Modals";
+import { AddOrganization, DeleteOrganization, EditOrganization } from "../Modals";
 import { AxiosResponse } from "axios";
 import Service from "../Service/Service";
 
@@ -29,7 +29,6 @@ function ManageOrganization() {
   const [editOrganization, setEditOrganization] = useState([])
   const [deleteOrganization, setDeleteOrganization] = useState([])
   const [openAddOrganizationModal, setOpenAddOrganizationModal] = useState(false);
-  const [openViewOrganizationModal, setOpenViewOrganizationModal] = useState(false);
   const [openEditOrganizationModal, setOpenEditOrganizationModal] = useState(false);
   const [openDeleteOrganizationModal, setOpenDeleteOrganizationModal] = useState(false);
 
@@ -118,14 +117,6 @@ function ManageOrganization() {
 
   const handleCloseAddOrganizationModal = () => {
     setOpenAddOrganizationModal(false);
-  }
-
-  const handleOpenViewOrganizationModal = () => {
-    setOpenViewOrganizationModal(true);
-  }
-
-  const handleCloseViewOrganizationModal = () => {
-    setOpenViewOrganizationModal(false);
   }
 
   const handleOpenEditOrganizationModal = () => {
@@ -226,11 +217,6 @@ function ManageOrganization() {
         open={openAddOrganizationModal}
         handleClose={handleCloseAddOrganizationModal}
         handleAddOrganization={handleAddOrganization}
-      />
-
-      <ViewOrganization
-        open={openViewOrganizationModal}
-        handleClose={handleCloseViewOrganizationModal}
       />
 
       <EditOrganization

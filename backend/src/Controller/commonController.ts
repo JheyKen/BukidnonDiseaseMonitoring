@@ -3,6 +3,7 @@ import commonModel from "../Model/commonModel"
 import bcrypt from 'bcrypt'
 import puppeteer from 'puppeteer'
 import fs from 'fs'
+
 const commonController = {
   login: async (req: Request, res: Response) => {
     try {
@@ -74,8 +75,8 @@ const commonController = {
     try {
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
-      const diseaseForReport = 'Influenza'
       const { body } = req;
+
       await page.evaluateOnNewDocument(
         params => {
           localStorage.clear();
@@ -91,9 +92,11 @@ const commonController = {
         path: './report.pdf'
       });
       await browser.close();
+
       const readStream = fs.createReadStream('./report.pdf');
       res.setHeader('Content-Type', 'application/pdf');
       readStream.pipe(res);
+
       return res.send(pdf);
     } catch (error: any) {
       res.status(500).send({

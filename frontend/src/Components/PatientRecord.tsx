@@ -11,7 +11,7 @@ import {
   TableBody,
   TablePagination
 } from "@mui/material";
-import { Search, Visibility, PersonOff, Edit, Delete } from "@mui/icons-material"
+import { Search, Visibility, Edit, Delete } from "@mui/icons-material"
 import "../App.css";
 import { useEffect, useState } from "react";
 import { AddPatientRecord, DeletePatientRecord, EditPatientRecord, ViewPatientRecord } from "../Modals";
@@ -27,7 +27,6 @@ function PatientRecord() {
   const [openAddPatientModal, setOpenAddPatientModal] = useState(false);
   const [openViewPatientModal, setOpenViewPatientModal] = useState(false);
   const [openEditPatientModal, setOpenEditPatientModal] = useState(false);
-  const [openDeadPatientModal, setOpenDeadPatientModal] = useState(false);
   const [openDeletePatientModal, setOpenDeletePatientModal] = useState(false);
   const [selectedPatientData, setSelectedPatientData] = useState({}) //holds the data of the patient to be edited/view/deleted
   const [addPatient, setAddPatient] = useState([])
@@ -125,14 +124,6 @@ function PatientRecord() {
 
   const handleCloseViewPatientModal = () => {
     setOpenViewPatientModal(false);
-  }
-
-  const handleOpenDeadPatientModal = () => {
-    setOpenDeadPatientModal(true);
-  }
-
-  const handleCloseDeadPatientModal = () => {
-    setOpenDeadPatientModal(false);
   }
 
   const handleOpenEditPatientModal = () => {

@@ -8,21 +8,6 @@ const paperStyle = { padding: '30px 20px 20px 20px', height: 400, width: 300, ma
 
 const year = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
 
-const graphContent = [
-  { label: 'JAN', result: 1 },
-  { label: 'FEB', result: 5 },
-  { label: 'MAR', result: 2 },
-  { label: 'APR', result: 5 },
-  { label: 'MAY', result: 0 },
-  { label: 'JUNE', result: 2 },
-  { label: 'JULY', result: 1 },
-  { label: 'AUG', result: 0 },
-  { label: 'SEPT', result: 3 },
-  { label: 'OCT', result: 0 },
-  { label: 'NOV', result: 5 },
-  { label: 'DEC', result: 5 },
-]
-
 function Dashboard() {
   const [dengueYear, setDengueYear] = useState(new Date().getFullYear().toString());
   const [influenzaYear, setInfluenzaYear] = useState(new Date().getFullYear().toString());

@@ -1,5 +1,5 @@
-import { BootstrapDialog, BootstrapDialogTitle } from "./BootstrapDialog";
-import { DialogContent, DialogActions, Button, TextField, TextareaAutosize } from "@mui/material";
+import { BootstrapDialog } from "./BootstrapDialog";
+import { DialogContent, DialogActions, Button } from "@mui/material";
 
 interface Props {
   open: boolean,
