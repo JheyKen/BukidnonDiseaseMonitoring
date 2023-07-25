@@ -1,7 +1,8 @@
 import { Request, Response } from 'express'
 import commonModel from "../Model/commonModel"
 import bcrypt from 'bcrypt'
-
+import puppeteer from 'puppeteer'
+import fs from 'fs'
 const commonController = {
   login: async (req: Request, res: Response) => {
     try {
@@ -71,7 +72,29 @@ const commonController = {
   },
   generatePDF: async (req: Request, res: Response) => {
     try {
-
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      const diseaseForReport = 'Influenza'
+      const { body } = req;
+      await page.evaluateOnNewDocument(
+        params => {
+          localStorage.clear();
+          localStorage.setItem('diseaseForReport', params.diseaseForReport);
+          localStorage.setItem('dateToForReport', params.dateToForReport);
+          localStorage.setItem('dateFromForReport', params.dateFromForReport);
+        }, body);
+      await page.goto('http://localhost:3000/report', { waitUntil: 'networkidle0' });
+      await page.emulateMediaType('screen');
+      const pdf = await page.pdf({
+        printBackground: true,
+        format: 'A4',
+        path: './report.pdf'
+      });
+      await browser.close();
+      const readStream = fs.createReadStream('./report.pdf');
+      res.setHeader('Content-Type', 'application/pdf');
+      readStream.pipe(res);
+      return res.send(pdf);
     } catch (error: any) {
       res.status(500).send({
         error: 1,

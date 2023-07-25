@@ -1,5 +1,7 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, CSSProperties } from 'react';
 import './App.css';
+//@ts-ignore
+import FileSaver from 'file-saver';
 import { Header, Login, Sidebar } from './Pages';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import {
@@ -15,11 +17,13 @@ import {
 } from './Components';
 import Service from './Service/Service';
 import Report from './Data/Report';
+import { PulseLoader } from 'react-spinners'
 import { AxiosResponse } from "axios";
 
 interface Props { }
 interface State {
   login: boolean,
+  load: boolean,
   username: string,
   password: string,
   name: string,
@@ -31,6 +35,7 @@ interface State {
 
 const initialState = {
   login: false,
+  load: false,
   username: "",
   password: "",
   name: "",
@@ -38,6 +43,19 @@ const initialState = {
   diseaseForReport: "Dengue",
   dateFromForReport: "",
   dateToForReport: ""
+}
+
+const overrideSpinner: CSSProperties = {
+  position: "fixed",
+  width: "100%",
+  height: "100%",
+  paddingTop: '20%',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0,0,0,0.5)",
+  zIndex: 2,
 }
 
 export function localStorageValues(value: string) {
@@ -109,6 +127,7 @@ class App extends React.Component<Props, State> {
           localStorage.setItem('username', data.username)
           localStorage.setItem('login', 'true')
           localStorage.setItem('isAdmin', data.isAdmin)
+          localStorage.setItem('diseaseForReport', 'Dengue')
 
           this.setState({
             ...this.state,
@@ -152,15 +171,15 @@ class App extends React.Component<Props, State> {
   }
 
   handleDownloadReport = async () => {
+    this.setState({ ...this.state, load: true })
     try {
-      const result: AxiosResponse = await Service.generatePDF();
-      const { data } = result
-      alert(data.message)
-      // const printWindow = window.open("/report")
-      // printWindow!.print();
+      const result: BlobPart = await Service.generatePDF();
+      var blob = new Blob([result], { type: "application/pdf" });
+      FileSaver.saveAs(blob, "report.pdf");
     } catch (error) {
       alert("Error generating PDF.");
     }
+    this.setState({ ...this.state, load: false })
   }
 
   render() {
@@ -175,6 +194,13 @@ class App extends React.Component<Props, State> {
               name={this.state.name}
             />
           </div>
+        }
+
+        {
+          !this.state.load ? "" :
+            <div style={{ textAlign: 'center' }}>
+              <PulseLoader color={'#115293'} size={50} cssOverride={overrideSpinner} />
+            </div>
         }
 
         <Router>

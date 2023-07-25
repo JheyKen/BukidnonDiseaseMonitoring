@@ -23,7 +23,16 @@ const Service = {
   },
   generatePDF: async () => {
     try {
-      const data: AxiosResponse = await axios.post('/common/generatePDF');
+      const diseaseForReport = localStorage.getItem("diseaseForReport");
+      const dateFromForReport = localStorage.getItem("dateFromForReport");
+      const dateToForReport = localStorage.getItem("dateToForReport");
+      const data: AxiosResponse = await axios.post('/common/generatePDF', {
+        diseaseForReport,
+        dateFromForReport,
+        dateToForReport,
+      },{
+        responseType: 'blob'
+      });
       return data.data
     } catch (error) {
       throw error
